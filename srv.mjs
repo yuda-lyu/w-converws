@@ -1,0 +1,50 @@
+import WConverwsServer from './src/WConverwsServer.mjs'
+//import WConverwsServer from './dist/w-converws-server.umd.js'
+
+let opt = {
+    port: 8080,
+    authenticate: async function(token) {
+        //使用token驗證使用者身份
+        return new Promise(function(resolve, reject) {
+            setTimeout(function() {
+                resolve(true)
+            }, 1000)
+        })
+    },
+}
+
+//new
+let wo = new WConverwsServer(opt)
+
+wo.on('open', function() {
+    //console.log(`Server[port:${opt.port}]: open`)
+    console.log(`Server running at: ws://localhost:${opt.port}`)
+
+    let n = 0
+    setInterval(() => {
+        n += 1
+
+        //broadcast
+        wo.broadcast(`server: broadcast: hi(${n})`)
+
+    }, 1000)
+
+})
+wo.on('error', function(err) {
+    console.log(`Server[port:${opt.port}]: error`, err)
+})
+wo.on('clientChange', function(clients) {
+    console.log(`Server[port:${opt.port}]: now clients: ${clients.length}`)
+})
+wo.on('execute', function(func, input, cb) {
+    console.log(`Server[port:${opt.port}]: execute`, func, input)
+
+    if (func === 'add') {
+        let r = input.p1 + input.p2
+        cb(r)
+    }
+
+})
+wo.on('broadcast', function(data) {
+    console.log(`Server[port:${opt.port}]: broadcast`, data)
+})
