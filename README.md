@@ -10,7 +10,7 @@ An operator for websocket in nodejs and browser.
 [![jsdelivr download](https://img.shields.io/jsdelivr/npm/hm/w-converws.svg)](https://www.jsdelivr.com/package/npm/w-converws)
 
 ## Documentation
-To view documentation or get support, visit [docs](https://yuda-lyu.github.io/w-converws/global.html).
+To view documentation or get support, visit [docs](https://yuda-lyu.github.io/w-converws/WConverwsServer.html).
 
 ## Parts
 `w-converws` includes 2 parts: 
