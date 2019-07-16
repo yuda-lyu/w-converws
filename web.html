@@ -70,6 +70,9 @@
             wo.on('broadcast', function(data) {
                 logData('client web: broadcast', data)
             })
+            wo.on('deliver', function(data) {
+                logData('client web: deliver', data)
+            })
 
         </script>
 

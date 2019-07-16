@@ -37,3 +37,6 @@ wo.on('reconn', function() {
 wo.on('broadcast', function(data) {
     console.log('client nodejs[port:8080]: broadcast', data)
 })
+wo.on('deliver', function(data) {
+    console.log('client nodejs[port:8080]: deliver', data)
+})

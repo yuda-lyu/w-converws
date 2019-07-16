@@ -16,7 +16,7 @@ import isfun from 'wsemi/src/isfun.mjs'
  * @param {Object} [opt={}] 輸入設定物件，預設{}
  * @param {Integer} [opt.port=8080] 輸入WebSocket伺服器所在port，預設8080
  * @param {Function} opt.authenticate 輸入使用者身份認證函數，供伺服器端驗證之用，函數會傳入使用者端連線之token參數，回傳為Promise，resolve(true)為驗證通過，resolve(false)為驗證不通過
- * @returns {Object} 回傳通訊物件，可監聽事件open、error、clientChange、execute、broadcast，可使用函數broadcast
+ * @returns {Object} 回傳通訊物件，可監聽事件open、error、clientChange、execute、broadcast、deliver，可使用函數broadcast
  * @example
  *
  * import WConverwsServer from 'w-converws/dist/w-converws-server.umd.js'
@@ -39,14 +39,10 @@ import isfun from 'wsemi/src/isfun.mjs'
  * wo.on('open', function() {
  *     console.log(`Server running at: ws://localhost:${opt.port}`)
  *
- *     let n = 0
- *     setInterval(() => {
- *         n += 1
- *
- *         //broadcast
- *         wo.broadcast(`server: broadcast: hi(${n})`)
- *
- *     }, 1000)
+ *     //broadcast
+ *     setTimeout(() => {
+ *         wo.broadcast(`server: broadcast: hi`)
+ *     }, 5000)
  *
  * })
  * wo.on('error', function(err) {
@@ -55,17 +51,20 @@ import isfun from 'wsemi/src/isfun.mjs'
  * wo.on('clientChange', function(clients) {
  *     console.log(`Server[port:${opt.port}]: now clients: ${clients.length}`)
  * })
- * wo.on('execute', function(func, input, cb) {
+ * wo.on('execute', function(func, input, callback, sendData) {
  *     console.log(`Server[port:${opt.port}]: execute`, func, input)
  *
  *     if (func === 'add') {
  *         let r = input.p1 + input.p2
- *         cb(r)
+ *         callback(r)
  *     }
  *
  * })
  * wo.on('broadcast', function(data) {
- *     console.log(`Server[port:${opt.port}]: broadcast`, data)
+    *     console.log(`Server[port:${opt.port}]: broadcast`, data)
+    * })
+ * wo.on('deliver', function(data) {
+ *     console.log(`Server[port:${opt.port}]: deliver`, data)
  * })
  *
  */
@@ -128,7 +127,7 @@ function WConverwsServer(opt = {}) {
             authenticate(token)
                 .then(function(vd) {
 
-                    //callback
+                    //done callback
                     done(vd)
 
                 })
@@ -223,7 +222,8 @@ function WConverwsServer(opt = {}) {
         })
 
 
-        function send(data) {
+        function sendData(data) {
+            //console.log('sendData', data)
             if (wsc.readyState === WebSocket.OPEN) {
                 wsc.send(JSON.stringify(data), function(err) {
                     if (err) {
@@ -234,38 +234,54 @@ function WConverwsServer(opt = {}) {
         }
 
 
+        //bind for execute
+        wsc.sendData = sendData
+
+
         function parserData(data) {
-            //console.log(`Server[port:${opt.port}]: `, data)
+            //console.log('parserData', data)
 
-            //func
-            let func = getdtvstr(data, 'func')
+            //_mode
+            let _mode = getdtvstr(data, '_mode')
 
-            //cb
-            function cb(output) {
+            //callback
+            function callback(output) {
 
                 //add output
                 data['output'] = output
 
-                //send
-                send(data)
+                //sendData
+                sendData(data)
 
             }
 
             //emit
-            if (func !== '') {
+            if (_mode === 'execute') {
+
+                //func
+                let func = getdtvstr(data, 'func')
 
                 //input
                 let input = get(data, 'input')
 
                 //execute 執行
-                eeEmit('execute', func, input, cb)
+                eeEmit('execute', func, input, callback, sendData)
+
+            }
+            else if (_mode === 'broadcast') {
+
+                //broadcast 廣播
+                eeEmit('broadcast', get(data, 'data'))
+
+            }
+            else if (_mode === 'deliver') {
+
+                //deliver 交付
+                eeEmit('deliver', get(data, 'data'))
 
             }
             else {
-
-                //broadcast 廣播
-                eeEmit('broadcast', data)
-
+                error({ msg: 'can not find _mode in data', err: data })
             }
 
         }
@@ -286,14 +302,22 @@ function WConverwsServer(opt = {}) {
 
         function triggerBroadcast(data) {
 
-            //send
-            send(data)
+            //msg
+            let msg = {
+                _mode: 'broadcast',
+                data: data,
+            }
+
+            //sendData
+            sendData(msg)
 
         }
 
 
-        //triggerBroadcast, 需對全部clients廣播, 故不能清除過去監聽事件
-        //ee.removeAllListeners('triggerBroadcast')
+        //需封裝單一傳輸send給外面用
+
+
+        //triggerBroadcast, 需對全部客戶端廣播, 不能清除過去監聽事件
         ee.on('triggerBroadcast', triggerBroadcast)
 
 
@@ -306,13 +330,14 @@ function WConverwsServer(opt = {}) {
      * @memberof WConverwsServer
      * @param {String} func 傳入執行函數名稱字串
      * @param {*} input 傳入執行函數之輸入數據
-     * @param {Function} cb 傳入執行函數之回調函數
+     * @param {Function} callback 傳入執行函數之回調函數
+     * @param {Function} sendData 傳入執行函數之強制回傳函數，提供傳送任意訊息給客戶端，供由服器多次回傳數據之用
      * @example
-     * wo.on('execute', function(func, input, cb) {
+     * wo.on('execute', function(func, input, callback, sendData) {
      *     ...
      * })
      */
-    function execute(func, input, cb) {}
+    function execute(func, input, callback, sendData) {}
     execute()
 
 
@@ -328,6 +353,20 @@ function WConverwsServer(opt = {}) {
      */
     function broadcast() {}
     broadcast()
+
+
+    /**
+     * WebSocket監聽客戶端交付事件
+     *
+     * @memberof WConverwsServer
+     * @param {*} data 傳入交付訊息
+     * @example
+     * wo.on('deliver', function(data) {
+     *     ...
+     * })
+     */
+    function deliver() {}
+    deliver()
 
 
     /**

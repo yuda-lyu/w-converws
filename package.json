@@ -1,6 +1,6 @@
 {
   "name": "w-converws",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An operator for websocket in nodejs and browser.",
   "main": "dist/w-converws-server.umd.js",
   "dependencies": {

@@ -14,7 +14,7 @@ import j2o from 'wsemi/src/j2o.mjs'
  * @param {Object} opt 輸入設定參數物件
  * @param {String} [opt.url='ws://localhost:8080'] 輸入WebSocket伺服器ws網址，預設為'ws://localhost:8080'
  * @param {String} [opt.token='*'] 輸入使用者認證用token，預設為'*'
- * @returns {Object} 回傳通訊物件，可監聽事件open、bOpened、close、error、reconn、broadcast，可使用函數execute、broadcast
+ * @returns {Object} 回傳通訊物件，可監聽事件open、bOpened、close、error、reconn、broadcast、deliver，可使用函數execute、broadcast、deliver
  * @example
  *
  * import WConverwsClient from 'w-converws/dist/w-converws-client.umd.js'
@@ -54,6 +54,9 @@ import j2o from 'wsemi/src/j2o.mjs'
  * })
  * wo.on('broadcast', function(data) {
  *     console.log('client nodejs[port:8080]: broadcast', data)
+ * })
+ * wo.on('deliver', function(data) {
+ *     console.log('client nodejs[port:8080]: deliver', data)
  * })
  *
  */
@@ -193,11 +196,11 @@ function WConverwsClient(opt) {
 
         function parserData(data) {
 
-            //func
-            let func = getdtvstr(data, 'func')
+            //_mode
+            let _mode = getdtvstr(data, '_mode')
 
             //emit
-            if (func !== '') {
+            if (_mode === 'execute') {
 
                 if (get(data, '_id') && get(data, 'output')) {
 
@@ -211,23 +214,31 @@ function WConverwsClient(opt) {
                 else {
                     //無效資料
 
-                    eeEmit('error', { msg: 'parserData error', data: data })
+                    eeEmit('error', { msg: 'can not find _id and output in data', err: data })
 
                 }
 
             }
-            else {
+            else if (_mode === 'broadcast') {
 
                 //broadcast 廣播
-                eeEmit('broadcast', data)
+                eeEmit('broadcast', get(data, 'data'))
 
             }
+            else if (_mode === 'deliver') {
 
+                //deliver 交付
+                eeEmit('deliver', get(data, 'data'))
+
+            }
+            else {
+                error({ msg: 'can not find _mode in data', err: data })
+            }
 
         }
 
 
-        function send(data) {
+        function sendData(data) {
             if (wsc.readyState === wsc.OPEN) {
                 wsc.send(JSON.stringify(data), function(err) {
                     if (err) {
@@ -238,13 +249,14 @@ function WConverwsClient(opt) {
         }
 
 
-        function triggerExecute(func, input = null, cb) {
+        function triggerExecute(func, input = null, callback) {
 
             //_id
             let _id = genID()
 
             //msg
             let msg = {
+                _mode: 'execute',
                 _id: _id,
                 func: func,
                 input: input,
@@ -253,8 +265,8 @@ function WConverwsClient(opt) {
             //add msgs
             msgs[_id] = null
 
-            //send
-            send(msg)
+            //sendData
+            sendData(msg)
 
             //等待結果回傳
             let t = setInterval(function() {
@@ -266,8 +278,8 @@ function WConverwsClient(opt) {
                     //delete msgs
                     delete msgs[_id]
 
-                    //cb
-                    cb(output)
+                    //callback
+                    callback(output)
 
                     //clearInterval
                     clearInterval(t)
@@ -280,8 +292,28 @@ function WConverwsClient(opt) {
 
         function triggerBroadcast(data) {
 
-            //send
-            send(data)
+            //msg
+            let msg = {
+                _mode: 'broadcast',
+                data: data,
+            }
+
+            //sendData
+            sendData(msg)
+
+        }
+
+
+        function triggerDeliver(data) {
+
+            //msg
+            let msg = {
+                _mode: 'deliver',
+                data: data,
+            }
+
+            //sendData
+            sendData(msg)
 
         }
 
@@ -294,6 +326,11 @@ function WConverwsClient(opt) {
         //triggerBroadcast, 若斷線重連則需自動清除過去監聽事件
         ee.removeAllListeners('triggerBroadcast')
         ee.on('triggerBroadcast', triggerBroadcast)
+
+
+        //triggerDeliver, 若斷線重連則需自動清除過去監聽事件
+        ee.removeAllListeners('triggerDeliver')
+        ee.on('triggerDeliver', triggerDeliver)
 
 
     }
@@ -314,7 +351,7 @@ function WConverwsClient(opt) {
 
 
     /**
-     * WebSocket通訊物件對伺服器端執行函數
+     * WebSocket通訊物件對伺服器端執行函數，表示傳送資料給伺服器，並請伺服器執行函數
      *
      * @memberof WConverwsClient
      * @param {String} func 輸入執行函數之名稱字串
@@ -334,7 +371,7 @@ function WConverwsClient(opt) {
 
 
     /**
-     * WebSocket通訊物件對伺服器端廣播函數
+     * WebSocket通訊物件對伺服器端廣播函數，表示傳送資料給伺服器，還需轉送其他客戶端
      *
      * @memberof WConverwsClient
      * @param {*} data 輸入廣播函數之輸入資訊
@@ -344,6 +381,20 @@ function WConverwsClient(opt) {
      */
     ee.broadcast = function (data) {
         eeEmit('triggerBroadcast', data)
+    }
+
+
+    /**
+     * WebSocket通訊物件對伺服器端交付函數，表示僅傳送資料給伺服器
+     *
+     * @memberof WConverwsClient
+     * @param {*} data 輸入廣播函數之輸入資訊
+     * @example
+     * let data = {...}
+     * wo.deliver(data)
+     */
+    ee.deliver = function (data) {
+        eeEmit('triggerDeliver', data)
     }
 
 

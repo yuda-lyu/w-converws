@@ -20,14 +20,16 @@ wo.on('open', function() {
     //console.log(`Server[port:${opt.port}]: open`)
     console.log(`Server running at: ws://localhost:${opt.port}`)
 
-    let n = 0
-    setInterval(() => {
-        n += 1
+    //broadcast
+    setTimeout(() => {
+        wo.broadcast(`server: broadcast: hi`)
+    }, 5000)
 
-        //broadcast
-        wo.broadcast(`server: broadcast: hi(${n})`)
-
-    }, 1000)
+    // let n = 0
+    // setInterval(() => {
+    //     n += 1
+    //     wo.broadcast(`server: broadcast: hi(${n})`)
+    // }, 1000)
 
 })
 wo.on('error', function(err) {
@@ -36,15 +38,18 @@ wo.on('error', function(err) {
 wo.on('clientChange', function(clients) {
     console.log(`Server[port:${opt.port}]: now clients: ${clients.length}`)
 })
-wo.on('execute', function(func, input, cb) {
+wo.on('execute', function(func, input, callback) {
     console.log(`Server[port:${opt.port}]: execute`, func, input)
 
     if (func === 'add') {
         let r = input.p1 + input.p2
-        cb(r)
+        callback(r)
     }
 
 })
 wo.on('broadcast', function(data) {
     console.log(`Server[port:${opt.port}]: broadcast`, data)
+})
+wo.on('deliver', function(data) {
+    console.log(`Server[port:${opt.port}]: deliver`, data)
 })

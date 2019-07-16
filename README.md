@@ -61,17 +61,20 @@ wo.on('error', function(err) {
 wo.on('clientChange', function(clients) {
     console.log(`Server[port:${opt.port}]: now clients: ${clients.length}`)
 })
-wo.on('execute', function(func, input, cb) {
+wo.on('execute', function(func, input, callback) {
     console.log(`Server[port:${opt.port}]: execute`, func, input)
 
     if (func === 'add') {
         let r = input.p1 + input.p2
-        cb(r)
+        callback(r)
     }
 
 })
 wo.on('broadcast', function(data) {
     console.log(`Server[port:${opt.port}]: broadcast`, data)
+})
+wo.on('deliver', function(data) {
+    console.log(`Server[port:${opt.port}]: deliver`, data)
 })
 
 // Server running at: ws://localhost:8080
@@ -108,7 +111,9 @@ wo.on('openOnce', function() {
         })
 
     //broadcast
-    wo.broadcast('client nodejs[port:8080]: broadcast: hi')
+    setTimeout(() => {
+        wo.broadcast(`server: broadcast: hi`)
+    }, 5000)
 
 })
 wo.on('close', function() {
@@ -123,10 +128,14 @@ wo.on('reconn', function() {
 wo.on('broadcast', function(data) {
     console.log('client nodejs[port:8080]: broadcast', data)
 })
+wo.on('deliver', function(data) {
+    console.log('client nodejs[port:8080]: deliver', data)
+})
 
 // client nodejs[port:8080]: open
 // client nodejs[port:8080]: openOnce
 // execute: add 3
+// client nodejs[port:8080]: broadcast server: broadcast: hi
 ```
 
 ### In a browser(UMD module):
@@ -134,7 +143,7 @@ wo.on('broadcast', function(data) {
 
 [Necessary] Add script for w-converws-client.
 ```alias
-<script src="https://cdn.jsdelivr.net/npm/w-converws@1.0.0/dist/w-converws-client.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/w-converws@1.0.1/dist/w-converws-client.umd.js"></script>
 ```
 #### Example for w-converws-client:
 > **Link:** [[dev source code](https://github.com/yuda-lyu/w-converws/blob/master/web.html)]
@@ -176,8 +185,12 @@ wo.on('reconn', function() {
 wo.on('broadcast', function(data) {
     console.log('client web: broadcast', data)
 })
+wo.on('deliver', function(data) {
+    console.log('client web: deliver', data)
+})
 
 // client web: open
 // client web: openOnce
 // execute: add 3
+// client web: broadcast server: broadcast: hi
 ```
