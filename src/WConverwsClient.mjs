@@ -8,7 +8,7 @@ import j2o from 'wsemi/src/j2o.mjs'
 
 
 /**
- * 建立WebSocket使用者(Node.js)端物件
+ * 建立WebSocket使用者(Node.js與Browser)端物件
  *
  * @class
  * @param {Object} opt 輸入設定參數物件

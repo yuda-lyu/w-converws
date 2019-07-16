@@ -5,7 +5,7 @@ An operator for websocket in nodejs and browser.
 [![npm version](http://img.shields.io/npm/v/w-converws.svg?style=flat)](https://npmjs.org/package/w-converws) 
 [![Build Status](https://travis-ci.org/yuda-lyu/w-converws.svg?branch=master)](https://travis-ci.org/yuda-lyu/w-converws) 
 [![license](https://img.shields.io/npm/l/w-converws.svg?style=flat)](https://npmjs.org/package/w-converws) 
-[![gzip file size](http://img.badgesize.io/yuda-lyu/w-converws/master/dist/w-converws.umd.js.svg?compression=gzip)](https://github.com/yuda-lyu/w-converws)
+[![gzip file size](http://img.badgesize.io/yuda-lyu/w-converws/master/dist/w-converws-server.umd.js.svg?compression=gzip)](https://github.com/yuda-lyu/w-converws)
 [![npm download](https://img.shields.io/npm/dt/w-converws.svg)](https://npmjs.org/package/w-converws) 
 [![jsdelivr download](https://img.shields.io/jsdelivr/npm/hm/w-converws.svg)](https://www.jsdelivr.com/package/npm/w-converws)
 
@@ -24,7 +24,7 @@ To view documentation or get support, visit [docs](https://yuda-lyu.github.io/w-
 npm i w-converws
 ```
 #### Example for w-converws-server:
-> **Link:** [[dev source code](https://github.com/yuda-lyu/w-converws/blob/master/scla.mjs)]
+> **Link:** [[dev source code](https://github.com/yuda-lyu/w-converws/blob/master/srv.mjs)]
 ```alias
 import WConverwsServer from 'w-converws/dist/w-converws-server.umd.js'
 
@@ -86,7 +86,7 @@ wo.on('deliver', function(data) {
 // Server[port:8080]: broadcast client web: broadcast: hi
 ```
 #### Example for w-converws-client:
-> **Link:** [[dev source code](https://github.com/yuda-lyu/w-converws/blob/master/sclb.mjs)]
+> **Link:** [[dev source code](https://github.com/yuda-lyu/w-converws/blob/master/scla.mjs)]
 ```alias
 import WConverwsClient from 'w-converws/dist/w-converws-client.umd.js'
 
