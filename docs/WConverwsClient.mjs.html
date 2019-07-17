@@ -27,7 +27,7 @@
 
 <nav >
     
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="WConverwsClient.html">WConverwsClient</a><ul class='methods'><li data-type='method'><a href="WConverwsClient.html#.broadcast">broadcast</a></li><li data-type='method'><a href="WConverwsClient.html#.close">close</a></li><li data-type='method'><a href="WConverwsClient.html#.ee.broadcast">ee.broadcast</a></li><li data-type='method'><a href="WConverwsClient.html#.ee.deliver">ee.deliver</a></li><li data-type='method'><a href="WConverwsClient.html#.ee.execute">ee.execute</a></li><li data-type='method'><a href="WConverwsClient.html#.error">error</a></li><li data-type='method'><a href="WConverwsClient.html#.open">open</a></li><li data-type='method'><a href="WConverwsClient.html#.openOnce">openOnce</a></li><li data-type='method'><a href="WConverwsClient.html#.reconn">reconn</a></li></ul></li><li><a href="WConverwsServer.html">WConverwsServer</a><ul class='methods'><li data-type='method'><a href="WConverwsServer.html#.broadcast">broadcast</a></li><li data-type='method'><a href="WConverwsServer.html#.clientChange">clientChange</a></li><li data-type='method'><a href="WConverwsServer.html#.deliver">deliver</a></li><li data-type='method'><a href="WConverwsServer.html#.ee.broadcast">ee.broadcast</a></li><li data-type='method'><a href="WConverwsServer.html#.error">error</a></li><li data-type='method'><a href="WConverwsServer.html#.execute">execute</a></li><li data-type='method'><a href="WConverwsServer.html#.open">open</a></li></ul></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="WConverwsClient.html">WConverwsClient</a><ul class='methods'><li data-type='method'><a href="WConverwsClient.html#.broadcast">broadcast</a></li><li data-type='method'><a href="WConverwsClient.html#.deliver">deliver</a></li><li data-type='method'><a href="WConverwsClient.html#.execute">execute</a></li><li data-type='method'><a href="WConverwsClient.html#.onBroadcast">onBroadcast</a></li><li data-type='method'><a href="WConverwsClient.html#.onClose">onClose</a></li><li data-type='method'><a href="WConverwsClient.html#.onError">onError</a></li><li data-type='method'><a href="WConverwsClient.html#.onOpen">onOpen</a></li><li data-type='method'><a href="WConverwsClient.html#.onOpenOnce">onOpenOnce</a></li><li data-type='method'><a href="WConverwsClient.html#.onReconn">onReconn</a></li></ul></li><li><a href="WConverwsServer.html">WConverwsServer</a><ul class='methods'><li data-type='method'><a href="WConverwsServer.html#.broadcast">broadcast</a></li><li data-type='method'><a href="WConverwsServer.html#.onBroadcast">onBroadcast</a></li><li data-type='method'><a href="WConverwsServer.html#.onClientChange">onClientChange</a></li><li data-type='method'><a href="WConverwsServer.html#.onDeliver">onDeliver</a></li><li data-type='method'><a href="WConverwsServer.html#.onError">onError</a></li><li data-type='method'><a href="WConverwsServer.html#.onExecute">onExecute</a></li><li data-type='method'><a href="WConverwsServer.html#.onOpen">onOpen</a></li></ul></li></ul>
 </nav>
 
 <div id="main">
@@ -165,7 +165,7 @@ function WConverwsClient(opt) {
 
 
         /**
-         * WebSocket開啟事件
+         * WebSocket監聽開啟事件
          *
          * @memberof WConverwsClient
          * @example
@@ -173,13 +173,14 @@ function WConverwsClient(opt) {
          *     ...
          * })
          */
+        function onOpen() {} onOpen()
         function open() {
             eeEmit('open')
         }
 
 
         /**
-         * WebSocket第一次開啟事件
+         * WebSocket監聽第一次開啟事件
          *
          * @memberof WConverwsClient
          * @example
@@ -187,6 +188,7 @@ function WConverwsClient(opt) {
          *     ...
          * })
          */
+        function onOpenOnce() {} onOpenOnce()
         function openOnce() {
             if (!bOpened) {
                 eeEmit('openOnce')
@@ -196,7 +198,7 @@ function WConverwsClient(opt) {
 
 
         /**
-         * WebSocket關閉事件
+         * WebSocket監聽關閉事件
          *
          * @memberof WConverwsClient
          * @example
@@ -204,6 +206,7 @@ function WConverwsClient(opt) {
          *     ...
          * })
          */
+        function onClose() {} onClose()
         function close() {
             eeEmit('close')
             reconn()
@@ -220,6 +223,7 @@ function WConverwsClient(opt) {
          *     ...
          * })
          */
+        function onError() {} onError()
         function error(err) {
             eeEmit('error', { msg: 'websocket error', err: err })
             wsc.close()
@@ -390,14 +394,14 @@ function WConverwsClient(opt) {
      *     ...
      * })
      */
-    function broadcast() {}
-    broadcast()
+    function onBroadcast() {} onBroadcast()
 
 
     /**
      * WebSocket通訊物件對伺服器端執行函數，表示傳送資料給伺服器，並請伺服器執行函數
      *
      * @memberof WConverwsClient
+     * @function execute
      * @param {String} func 輸入執行函數之名稱字串
      * @param {*} [input=null] 輸入執行函數之輸入資訊
      * @example
@@ -418,6 +422,7 @@ function WConverwsClient(opt) {
      * WebSocket通訊物件對伺服器端廣播函數，表示傳送資料給伺服器，還需轉送其他客戶端
      *
      * @memberof WConverwsClient
+     * @function broadcast
      * @param {*} data 輸入廣播函數之輸入資訊
      * @example
      * let data = {...}
@@ -432,6 +437,7 @@ function WConverwsClient(opt) {
      * WebSocket通訊物件對伺服器端交付函數，表示僅傳送資料給伺服器
      *
      * @memberof WConverwsClient
+     * @function deliver
      * @param {*} data 輸入廣播函數之輸入資訊
      * @example
      * let data = {...}
@@ -443,7 +449,7 @@ function WConverwsClient(opt) {
 
 
     /**
-     * WebSocket重連事件
+     * WebSocket監聽重連事件
      *
      * @memberof WConverwsClient
      * @example
@@ -451,6 +457,7 @@ function WConverwsClient(opt) {
      *     ...
      * })
      */
+    function onReconn() {} onReconn()
     function reconn() {
         setTimeout(function() {
             eeEmit('reconn')
@@ -482,7 +489,7 @@ export default WConverwsClient
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Tue Jul 16 2019 21:18:39 GMT+0800 (GMT+08:00) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Wed Jul 17 2019 10:47:37 GMT+0800 (GMT+08:00) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

@@ -162,6 +162,7 @@ function WConverwsServer(opt = {}) {
      *     ...
      * })
      */
+    function onOpen() {} onOpen()
     function open() {
         eeEmit('open')
     }
@@ -178,6 +179,7 @@ function WConverwsServer(opt = {}) {
      *     ...
      * })
      */
+    function onError() {} onError()
     function error(err) {
         eeEmit('error', err)
     }
@@ -193,6 +195,7 @@ function WConverwsServer(opt = {}) {
      *     ...
      * })
      */
+    function onClientChange() {} onClientChange()
     function clientChange() {
         eeEmit('clientChange', clients)
     }
@@ -337,8 +340,7 @@ function WConverwsServer(opt = {}) {
      *     ...
      * })
      */
-    function execute(func, input, callback, sendData) {}
-    execute()
+    function onExecute() {} onExecute()
 
 
     /**
@@ -351,8 +353,7 @@ function WConverwsServer(opt = {}) {
      *     ...
      * })
      */
-    function broadcast() {}
-    broadcast()
+    function onBroadcast() {} onBroadcast()
 
 
     /**
@@ -365,14 +366,14 @@ function WConverwsServer(opt = {}) {
      *     ...
      * })
      */
-    function deliver() {}
-    deliver()
+    function onDeliver() {} onDeliver()
 
 
     /**
      * WebSocket通訊物件對客戶端廣播函數
      *
      * @memberof WConverwsServer
+     * @function broadcast
      * @param {*} data 輸入廣播函數之輸入資訊
      * @example
      * let data = {...}

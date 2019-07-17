@@ -1,6 +1,7 @@
 import WConverwsServer from './src/WConverwsServer.mjs'
 //import WConverwsServer from './dist/w-converws-server.umd.js'
 
+
 let opt = {
     port: 8080,
     authenticate: async function(token) {

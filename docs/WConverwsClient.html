@@ -27,7 +27,7 @@
 
 <nav >
     
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="WConverwsClient.html">WConverwsClient</a><ul class='methods'><li data-type='method'><a href="WConverwsClient.html#.broadcast">broadcast</a></li><li data-type='method'><a href="WConverwsClient.html#.close">close</a></li><li data-type='method'><a href="WConverwsClient.html#.ee.broadcast">ee.broadcast</a></li><li data-type='method'><a href="WConverwsClient.html#.ee.deliver">ee.deliver</a></li><li data-type='method'><a href="WConverwsClient.html#.ee.execute">ee.execute</a></li><li data-type='method'><a href="WConverwsClient.html#.error">error</a></li><li data-type='method'><a href="WConverwsClient.html#.open">open</a></li><li data-type='method'><a href="WConverwsClient.html#.openOnce">openOnce</a></li><li data-type='method'><a href="WConverwsClient.html#.reconn">reconn</a></li></ul></li><li><a href="WConverwsServer.html">WConverwsServer</a><ul class='methods'><li data-type='method'><a href="WConverwsServer.html#.broadcast">broadcast</a></li><li data-type='method'><a href="WConverwsServer.html#.clientChange">clientChange</a></li><li data-type='method'><a href="WConverwsServer.html#.deliver">deliver</a></li><li data-type='method'><a href="WConverwsServer.html#.ee.broadcast">ee.broadcast</a></li><li data-type='method'><a href="WConverwsServer.html#.error">error</a></li><li data-type='method'><a href="WConverwsServer.html#.execute">execute</a></li><li data-type='method'><a href="WConverwsServer.html#.open">open</a></li></ul></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="WConverwsClient.html">WConverwsClient</a><ul class='methods'><li data-type='method'><a href="WConverwsClient.html#.broadcast">broadcast</a></li><li data-type='method'><a href="WConverwsClient.html#.deliver">deliver</a></li><li data-type='method'><a href="WConverwsClient.html#.execute">execute</a></li><li data-type='method'><a href="WConverwsClient.html#.onBroadcast">onBroadcast</a></li><li data-type='method'><a href="WConverwsClient.html#.onClose">onClose</a></li><li data-type='method'><a href="WConverwsClient.html#.onError">onError</a></li><li data-type='method'><a href="WConverwsClient.html#.onOpen">onOpen</a></li><li data-type='method'><a href="WConverwsClient.html#.onOpenOnce">onOpenOnce</a></li><li data-type='method'><a href="WConverwsClient.html#.onReconn">onReconn</a></li></ul></li><li><a href="WConverwsServer.html">WConverwsServer</a><ul class='methods'><li data-type='method'><a href="WConverwsServer.html#.broadcast">broadcast</a></li><li data-type='method'><a href="WConverwsServer.html#.onBroadcast">onBroadcast</a></li><li data-type='method'><a href="WConverwsServer.html#.onClientChange">onClientChange</a></li><li data-type='method'><a href="WConverwsServer.html#.onDeliver">onDeliver</a></li><li data-type='method'><a href="WConverwsServer.html#.onError">onError</a></li><li data-type='method'><a href="WConverwsServer.html#.onExecute">onExecute</a></li><li data-type='method'><a href="WConverwsServer.html#.onOpen">onOpen</a></li></ul></li></ul>
 </nav>
 
 <div id="main">
@@ -363,240 +363,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="WConverwsClient.mjs.html">WConverwsClient.mjs</a>, <a href="WConverwsClient.mjs.html#line349">line 349</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    <p>WebSocket監聽客戶端廣播事件</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>wo.on('broadcast', function(data) {    ...})</code></pre>
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>data</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">*</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>傳入廣播訊息</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".close"><span class="type-signature">(static) </span>close<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="WConverwsClient.mjs.html">WConverwsClient.mjs</a>, <a href="WConverwsClient.mjs.html#line163">line 163</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    <p>WebSocket關閉事件</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>wo.on('close', function() {    ...})</code></pre>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".ee.broadcast"><span class="type-signature">(static) </span>ee.broadcast<span class="signature">(data)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="WConverwsClient.mjs.html">WConverwsClient.mjs</a>, <a href="WConverwsClient.mjs.html#line382">line 382</a>
+        <a href="WConverwsClient.mjs.html">WConverwsClient.mjs</a>, <a href="WConverwsClient.mjs.html#line377">line 377</a>
     </li></ul></dd>
     
 
@@ -725,7 +492,7 @@
 
     
 
-    <h4 class="name" id=".ee.deliver"><span class="type-signature">(static) </span>ee.deliver<span class="signature">(data)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".deliver"><span class="type-signature">(static) </span>deliver<span class="signature">(data)</span><span class="type-signature"></span></h4>
 
     
 
@@ -737,7 +504,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="WConverwsClient.mjs.html">WConverwsClient.mjs</a>, <a href="WConverwsClient.mjs.html#line396">line 396</a>
+        <a href="WConverwsClient.mjs.html">WConverwsClient.mjs</a>, <a href="WConverwsClient.mjs.html#line392">line 392</a>
     </li></ul></dd>
     
 
@@ -866,7 +633,7 @@
 
     
 
-    <h4 class="name" id=".ee.execute"><span class="type-signature">(static) </span>ee.execute<span class="signature">(func, input<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".execute"><span class="type-signature">(static) </span>execute<span class="signature">(func, input<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
@@ -878,7 +645,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="WConverwsClient.mjs.html">WConverwsClient.mjs</a>, <a href="WConverwsClient.mjs.html#line364">line 364</a>
+        <a href="WConverwsClient.mjs.html">WConverwsClient.mjs</a>, <a href="WConverwsClient.mjs.html#line356">line 356</a>
     </li></ul></dd>
     
 
@@ -1062,7 +829,7 @@
 
     
 
-    <h4 class="name" id=".error"><span class="type-signature">(static) </span>error<span class="signature">(err)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".onBroadcast"><span class="type-signature">(static) </span>onBroadcast<span class="signature">(data)</span><span class="type-signature"></span></h4>
 
     
 
@@ -1074,7 +841,240 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="WConverwsClient.mjs.html">WConverwsClient.mjs</a>, <a href="WConverwsClient.mjs.html#line179">line 179</a>
+        <a href="WConverwsClient.mjs.html">WConverwsClient.mjs</a>, <a href="WConverwsClient.mjs.html#line353">line 353</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>WebSocket監聽客戶端廣播事件</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>wo.on('broadcast', function(data) {    ...})</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>data</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>傳入廣播訊息</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".onClose"><span class="type-signature">(static) </span>onClose<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="WConverwsClient.mjs.html">WConverwsClient.mjs</a>, <a href="WConverwsClient.mjs.html#line165">line 165</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>WebSocket監聽關閉事件</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>wo.on('close', function() {    ...})</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".onError"><span class="type-signature">(static) </span>onError<span class="signature">(err)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="WConverwsClient.mjs.html">WConverwsClient.mjs</a>, <a href="WConverwsClient.mjs.html#line182">line 182</a>
     </li></ul></dd>
     
 
@@ -1203,7 +1203,7 @@
 
     
 
-    <h4 class="name" id=".open"><span class="type-signature">(static) </span>open<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".onOpen"><span class="type-signature">(static) </span>onOpen<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
@@ -1255,7 +1255,7 @@
 
 
 <div class="description">
-    <p>WebSocket開啟事件</p>
+    <p>WebSocket監聽開啟事件</p>
 </div>
 
 
@@ -1295,7 +1295,7 @@
 
     
 
-    <h4 class="name" id=".openOnce"><span class="type-signature">(static) </span>openOnce<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".onOpenOnce"><span class="type-signature">(static) </span>onOpenOnce<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
@@ -1307,7 +1307,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="WConverwsClient.mjs.html">WConverwsClient.mjs</a>, <a href="WConverwsClient.mjs.html#line146">line 146</a>
+        <a href="WConverwsClient.mjs.html">WConverwsClient.mjs</a>, <a href="WConverwsClient.mjs.html#line147">line 147</a>
     </li></ul></dd>
     
 
@@ -1347,7 +1347,7 @@
 
 
 <div class="description">
-    <p>WebSocket第一次開啟事件</p>
+    <p>WebSocket監聽第一次開啟事件</p>
 </div>
 
 
@@ -1387,7 +1387,7 @@
 
     
 
-    <h4 class="name" id=".reconn"><span class="type-signature">(static) </span>reconn<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".onReconn"><span class="type-signature">(static) </span>onReconn<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
@@ -1399,7 +1399,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="WConverwsClient.mjs.html">WConverwsClient.mjs</a>, <a href="WConverwsClient.mjs.html#line410">line 410</a>
+        <a href="WConverwsClient.mjs.html">WConverwsClient.mjs</a>, <a href="WConverwsClient.mjs.html#line416">line 416</a>
     </li></ul></dd>
     
 
@@ -1439,7 +1439,7 @@
 
 
 <div class="description">
-    <p>WebSocket重連事件</p>
+    <p>WebSocket監聽重連事件</p>
 </div>
 
 
@@ -1494,7 +1494,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Tue Jul 16 2019 21:18:39 GMT+0800 (GMT+08:00) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Wed Jul 17 2019 10:47:37 GMT+0800 (GMT+08:00) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

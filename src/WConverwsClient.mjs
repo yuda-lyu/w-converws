@@ -121,7 +121,7 @@ function WConverwsClient(opt) {
 
 
         /**
-         * WebSocket開啟事件
+         * WebSocket監聽開啟事件
          *
          * @memberof WConverwsClient
          * @example
@@ -129,13 +129,14 @@ function WConverwsClient(opt) {
          *     ...
          * })
          */
+        function onOpen() {} onOpen()
         function open() {
             eeEmit('open')
         }
 
 
         /**
-         * WebSocket第一次開啟事件
+         * WebSocket監聽第一次開啟事件
          *
          * @memberof WConverwsClient
          * @example
@@ -143,6 +144,7 @@ function WConverwsClient(opt) {
          *     ...
          * })
          */
+        function onOpenOnce() {} onOpenOnce()
         function openOnce() {
             if (!bOpened) {
                 eeEmit('openOnce')
@@ -152,7 +154,7 @@ function WConverwsClient(opt) {
 
 
         /**
-         * WebSocket關閉事件
+         * WebSocket監聽關閉事件
          *
          * @memberof WConverwsClient
          * @example
@@ -160,6 +162,7 @@ function WConverwsClient(opt) {
          *     ...
          * })
          */
+        function onClose() {} onClose()
         function close() {
             eeEmit('close')
             reconn()
@@ -176,6 +179,7 @@ function WConverwsClient(opt) {
          *     ...
          * })
          */
+        function onError() {} onError()
         function error(err) {
             eeEmit('error', { msg: 'websocket error', err: err })
             wsc.close()
@@ -346,14 +350,14 @@ function WConverwsClient(opt) {
      *     ...
      * })
      */
-    function broadcast() {}
-    broadcast()
+    function onBroadcast() {} onBroadcast()
 
 
     /**
      * WebSocket通訊物件對伺服器端執行函數，表示傳送資料給伺服器，並請伺服器執行函數
      *
      * @memberof WConverwsClient
+     * @function execute
      * @param {String} func 輸入執行函數之名稱字串
      * @param {*} [input=null] 輸入執行函數之輸入資訊
      * @example
@@ -374,6 +378,7 @@ function WConverwsClient(opt) {
      * WebSocket通訊物件對伺服器端廣播函數，表示傳送資料給伺服器，還需轉送其他客戶端
      *
      * @memberof WConverwsClient
+     * @function broadcast
      * @param {*} data 輸入廣播函數之輸入資訊
      * @example
      * let data = {...}
@@ -388,6 +393,7 @@ function WConverwsClient(opt) {
      * WebSocket通訊物件對伺服器端交付函數，表示僅傳送資料給伺服器
      *
      * @memberof WConverwsClient
+     * @function deliver
      * @param {*} data 輸入廣播函數之輸入資訊
      * @example
      * let data = {...}
@@ -399,7 +405,7 @@ function WConverwsClient(opt) {
 
 
     /**
-     * WebSocket重連事件
+     * WebSocket監聽重連事件
      *
      * @memberof WConverwsClient
      * @example
@@ -407,6 +413,7 @@ function WConverwsClient(opt) {
      *     ...
      * })
      */
+    function onReconn() {} onReconn()
     function reconn() {
         setTimeout(function() {
             eeEmit('reconn')
