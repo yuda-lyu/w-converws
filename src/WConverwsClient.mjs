@@ -14,7 +14,7 @@ import j2o from 'wsemi/src/j2o.mjs'
  * @param {Object} opt 輸入設定參數物件
  * @param {String} [opt.url='ws://localhost:8080'] 輸入WebSocket伺服器ws網址，預設為'ws://localhost:8080'
  * @param {String} [opt.token='*'] 輸入使用者認證用token，預設為'*'
- * @returns {Object} 回傳通訊物件，可監聽事件open、bOpened、close、error、reconn、broadcast、deliver，可使用函數execute、broadcast、deliver
+ * @returns {Object} 回傳通訊物件，可監聽事件open、openOnce、close、error、reconn、broadcast、deliver，可使用函數execute、broadcast、deliver
  * @example
  *
  * import WConverwsClient from 'w-converws/dist/w-converws-client.umd.js'
@@ -341,7 +341,7 @@ function WConverwsClient(opt) {
 
 
     /**
-     * WebSocket監聽客戶端廣播事件
+     * WebSocket監聽伺服器端廣播事件
      *
      * @memberof WConverwsClient
      * @param {*} data 傳入廣播訊息
@@ -351,6 +351,19 @@ function WConverwsClient(opt) {
      * })
      */
     function onBroadcast() {} onBroadcast()
+
+
+    /**
+     * WebSocket監聽伺服器端交付事件
+     *
+     * @memberof WConverwsClient
+     * @param {*} data 傳入交付訊息
+     * @example
+     * wo.on('deliver', function(data) {
+        *     ...
+        * })
+        */
+    function onDeliver() {} onDeliver()
 
 
     /**
