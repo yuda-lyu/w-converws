@@ -26,11 +26,11 @@ wo.on('open', function() {
         wo.broadcast(`server: broadcast: hi`)
     }, 5000)
 
-    // let n = 0
-    // setInterval(() => {
-    //     n += 1
-    //     wo.broadcast(`server: broadcast: hi(${n})`)
-    // }, 1000)
+    let n = 0
+    setInterval(() => {
+        n += 1
+        wo.broadcast(`server: broadcast: hi(${n})`)
+    }, 1000)
 
 })
 wo.on('error', function(err) {

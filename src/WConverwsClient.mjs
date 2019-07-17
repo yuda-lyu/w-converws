@@ -4,7 +4,8 @@ import get from 'lodash/get'
 import genPm from 'wsemi/src/genPm.mjs'
 import genID from 'wsemi/src/genID.mjs'
 import getdtvstr from 'wsemi/src/getdtvstr.mjs'
-import j2o from 'wsemi/src/j2o.mjs'
+import obj2str from 'wsemi/src/obj2str.mjs'
+import str2obj from 'wsemi/src/str2obj.mjs'
 
 
 /**
@@ -190,7 +191,7 @@ function WConverwsClient(opt) {
             //console.log('message', message)
 
             //data
-            let data = j2o(message)
+            let data = str2obj(message)
 
             //parserData
             parserData(data)
@@ -244,7 +245,7 @@ function WConverwsClient(opt) {
 
         function sendData(data) {
             if (wsc.readyState === wsc.OPEN) {
-                wsc.send(JSON.stringify(data), function(err) {
+                wsc.send(obj2str(data), function(err) {
                     if (err) {
                         eeEmit('error', { msg: 'can not send message', err: err })
                     }
