@@ -29,7 +29,11 @@ wo.on('open', function() {
     let n = 0
     setInterval(() => {
         n += 1
-        wo.broadcast(`server: broadcast: hi(${n})`)
+        let o = {
+            text: `server: broadcast: hi(${n})`,
+            data: new Uint8Array([66, 97, 115]), //support Uint8Array data
+        }
+        wo.broadcast(o)
     }, 1000)
 
 })
