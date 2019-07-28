@@ -4,7 +4,7 @@ import WConverwsServer from './src/WConverwsServer.mjs'
 
 let opt = {
     port: 8080,
-    authenticate: async function(token) {
+    authenticate: function(token) {
         //使用token驗證使用者身份
         return new Promise(function(resolve, reject) {
             setTimeout(function() {

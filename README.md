@@ -30,7 +30,7 @@ import WConverwsServer from 'w-converws/dist/w-converws-server.umd.js'
 
 let opt = {
     port: 8080,
-    authenticate: async function(token) {
+    authenticate: function(token) {
         return new Promise(function(resolve, reject) {
             setTimeout(function() {
                 resolve(true)
@@ -143,7 +143,7 @@ wo.on('deliver', function(data) {
 
 [Necessary] Add script for w-converws-client.
 ```alias
-<script src="https://cdn.jsdelivr.net/npm/w-converws@1.0.2/dist/w-converws-client.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/w-converws@1.0.3/dist/w-converws-client.umd.js"></script>
 ```
 #### Example for w-converws-client:
 > **Link:** [[dev source code](https://github.com/yuda-lyu/w-converws/blob/master/web.html)]

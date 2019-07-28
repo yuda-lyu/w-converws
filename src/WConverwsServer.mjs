@@ -24,7 +24,7 @@ import str2obj from 'wsemi/src/str2obj.mjs'
  *
  * let opt = {
  *     port: 8080,
- *     authenticate: async function(token) {
+ *     authenticate: function(token) {
  *         //使用token驗證使用者身份
  *         return new Promise(function(resolve, reject) {
  *             setTimeout(function() {
