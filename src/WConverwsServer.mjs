@@ -262,11 +262,14 @@ function WConverwsServer(opt = {}) {
             //_mode
             let _mode = getdtvstr(data, '_mode')
 
-            //callback
-            function callback(output) {
+            //cbResult for execute
+            function cbResult(output) {
 
                 //add output
                 data['output'] = output
+
+                //delete input, 因input可能很大故回傳數據不包含原input
+                delete data['input']
 
                 //sendData
                 sendData(data, null) //回傳執行結果就不處理進度回調
@@ -283,7 +286,7 @@ function WConverwsServer(opt = {}) {
                 let input = get(data, 'input')
 
                 //execute 執行
-                eeEmit('execute', func, input, callback, sendData)
+                eeEmit('execute', func, input, cbResult, sendData)
 
             }
             else if (_mode === 'broadcast') {
