@@ -68,7 +68,7 @@ import mergeSplitData from './mergeSplitData.mjs'
  *     console.log('client nodejs: broadcast=', data)
  * })
  * // wo.on('deliver', function(data) { //伺服器目前無法針對client直接deliver
- * //     console.log('client nodejs: deliver', data)
+ * //     console.log('client nodejs: deliver=', data)
  * // })
  *
  */

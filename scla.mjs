@@ -48,5 +48,5 @@ wo.on('broadcast', function(data) {
     console.log('client nodejs[port:8080]: broadcast=', data)
 })
 // wo.on('deliver', function(data) { //伺服器目前無法針對client直接deliver
-//     console.log('client nodejs[port:8080]: deliver', data)
+//     console.log('client nodejs[port:8080]: deliver=', data)
 // })
