@@ -24,7 +24,7 @@ function mergeSplitData(msg, parserData) {
     let pkn = toNumber(ss[2])
 
     //str
-    let str = join(drop(ss, 3)) //因數據本身可能就含有「|」故需合併回去
+    let str = join(drop(ss, 3), '|') //因數據本身可能就含有「|」故需合併回去
 
     //default
     if (!haskey(sData, pkid)) {
