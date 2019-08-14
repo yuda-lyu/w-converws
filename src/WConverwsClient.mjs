@@ -4,8 +4,8 @@ import get from 'lodash/get'
 import genPm from 'wsemi/src/genPm.mjs'
 import genID from 'wsemi/src/genID.mjs'
 import getdtvstr from 'wsemi/src/getdtvstr.mjs'
-import obj2str from 'wsemi/src/obj2str.mjs'
-import str2obj from 'wsemi/src/str2obj.mjs'
+import sendSplitData from './sendSplitData.mjs'
+import mergeSplitData from './mergeSplitData.mjs'
 
 
 /**
@@ -15,6 +15,7 @@ import str2obj from 'wsemi/src/str2obj.mjs'
  * @param {Object} opt 輸入設定參數物件
  * @param {String} [opt.url='ws://localhost:8080'] 輸入WebSocket伺服器ws網址，預設為'ws://localhost:8080'
  * @param {String} [opt.token='*'] 輸入使用者認證用token，預設為'*'
+ * @param {Integer} [opt.strSplitLength=1000000] 輸入傳輸封包長度整數，預設為1000000
  * @returns {Object} 回傳通訊物件，可監聽事件open、openOnce、close、error、reconn、broadcast、deliver，可使用函數execute、broadcast、deliver
  * @example
  *
@@ -29,46 +30,56 @@ import str2obj from 'wsemi/src/str2obj.mjs'
  * let wo = new WConverwsClient(opt)
  *
  * wo.on('open', function() {
- *     console.log('client nodejs[port:8080]: open')
+ *     console.log('client nodejs: open')
  * })
- * wo.on('bOpened', function() {
- *     console.log('client nodejs[port:8080]: bOpened')
+ * wo.on('openOnce', function() {
+ *     console.log('client nodejs: openOnce')
  *
  *     //execute
- *     wo.execute('add', { p1: 1, p2: 2 })
+ *     wo.execute('add', { p1: 1, p2: 2 },
+ *         function (prog) {
+ *             console.log('client nodejs: execute prog=', prog)
+ *         })
  *         .then(function(r) {
- *             console.log('execute: add', r)
+ *             console.log('client nodejs: execute: add=', r)
  *         })
  *
  *     //broadcast
- *     wo.broadcast('broadcast: hi')
+ *     wo.broadcast('client nodejs broadcast hi', function (prog) {
+ *         console.log('client nodejs: broadcast prog=', prog)
+ *     })
+ *
+ *     //deliver
+ *     wo.deliver('client deliver hi', function (prog) {
+ *         console.log('client nodejs: deliver prog=', prog)
+ *     })
  *
  * })
  * wo.on('close', function() {
- *     console.log('client nodejs[port:8080]: close')
+ *     console.log('client nodejs: close')
  * })
  * wo.on('error', function(err) {
- *     console.log('client nodejs[port:8080]: error', err)
+ *     console.log('client nodejs: error=', err)
  * })
  * wo.on('reconn', function() {
- *     console.log('client nodejs[port:8080]: reconn')
+ *     console.log('client nodejs: reconn')
  * })
  * wo.on('broadcast', function(data) {
- *     console.log('client nodejs[port:8080]: broadcast', data)
+ *     console.log('client nodejs: broadcast=', data)
  * })
- * wo.on('deliver', function(data) {
- *     console.log('client nodejs[port:8080]: deliver', data)
- * })
+ * // wo.on('deliver', function(data) { //伺服器目前無法針對client直接deliver
+ * //     console.log('client nodejs: deliver', data)
+ * // })
  *
  */
 function WConverwsClient(opt) {
     let bOpened = false //WebSocket是否第一次開啟
-    let msgs = {} //訊息佇列
     let wsc = null //WebSocket
 
 
-    //ee
+    //ee, ev
     let ee = new EventEmitter()
+    let ev = new EventEmitter()
 
 
     //eeEmit
@@ -89,7 +100,9 @@ function WConverwsClient(opt) {
         if (!opt.token) {
             opt.token = '*'
         }
-
+        if (!opt.strSplitLength) {
+            opt.strSplitLength = 1000000
+        }
 
         //optt
         let optt = {
@@ -190,11 +203,8 @@ function WConverwsClient(opt) {
         function message(message) {
             //console.log('message', message)
 
-            //data
-            let data = str2obj(message)
-
-            //parserData
-            parserData(data)
+            //mergeSplitData
+            mergeSplitData(message, parserData)
 
         }
 
@@ -212,8 +222,11 @@ function WConverwsClient(opt) {
                     //_id
                     let _id = get(data, '_id')
 
-                    //save msgs
-                    msgs[_id] = data
+                    //output
+                    let output = get(data, 'output')
+
+                    //emit
+                    ev.emit(_id, output)
 
                 }
                 else {
@@ -243,18 +256,19 @@ function WConverwsClient(opt) {
         }
 
 
-        function sendData(data) {
+        function sendData(data, cbProgress) {
             if (wsc.readyState === wsc.OPEN) {
-                wsc.send(obj2str(data), function(err) {
-                    if (err) {
-                        eeEmit('error', { msg: 'can not send message', err: err })
-                    }
+
+                //sendSplitData
+                sendSplitData(wsc, opt.strSplitLength, data, cbProgress, function (err) {
+                    eeEmit('error', { msg: 'can not send message', err: err })
                 })
+
             }
         }
 
 
-        function triggerExecute(func, input = null, callback) {
+        function triggerExecute(func, input = null, cbResult, cbProgress) {
 
             //_id
             let _id = genID()
@@ -267,35 +281,24 @@ function WConverwsClient(opt) {
                 input: input,
             }
 
-            //add msgs
-            msgs[_id] = null
-
             //sendData
-            sendData(msg)
+            sendData(msg, cbProgress)
 
             //等待結果回傳
-            let t = setInterval(function() {
-                if (msgs[_id] !== null) {
+            ev.on(_id, function (output) {
 
-                    //output
-                    let output = get(msgs[_id], 'output')
+                //cbResult
+                cbResult(output)
 
-                    //delete msgs
-                    delete msgs[_id]
+                //removeAllListeners
+                ev.removeAllListeners(_id)
 
-                    //callback
-                    callback(output)
-
-                    //clearInterval
-                    clearInterval(t)
-
-                }
-            }, 1000)
+            })
 
         }
 
 
-        function triggerBroadcast(data) {
+        function triggerBroadcast(data, cbProgress) {
 
             //msg
             let msg = {
@@ -304,12 +307,12 @@ function WConverwsClient(opt) {
             }
 
             //sendData
-            sendData(msg)
+            sendData(msg, cbProgress)
 
         }
 
 
-        function triggerDeliver(data) {
+        function triggerDeliver(data, cbProgress) {
 
             //msg
             let msg = {
@@ -318,7 +321,7 @@ function WConverwsClient(opt) {
             }
 
             //sendData
-            sendData(msg)
+            sendData(msg, cbProgress)
 
         }
 
@@ -379,11 +382,14 @@ function WConverwsClient(opt) {
      * let input = {...}
      * wo.execute(func, input)
      */
-    ee.execute = function (func, input) {
+    ee.execute = function (func, input, cbProgress = function () {}) {
         let pm = genPm()
-        eeEmit('triggerExecute', func, input, function(output) {
-            pm.resolve(output)
-        })
+        eeEmit('triggerExecute', func, input,
+            function(output) { //結果用promise回傳
+                pm.resolve(output)
+            },
+            cbProgress //傳輸進度用cb回傳
+        )
         return pm
     }
 
@@ -398,8 +404,8 @@ function WConverwsClient(opt) {
      * let data = {...}
      * wo.broadcast(data)
      */
-    ee.broadcast = function (data) {
-        eeEmit('triggerBroadcast', data)
+    ee.broadcast = function (data, cbProgress = function () {}) {
+        eeEmit('triggerBroadcast', data, cbProgress)
     }
 
 
@@ -413,8 +419,8 @@ function WConverwsClient(opt) {
      * let data = {...}
      * wo.deliver(data)
      */
-    ee.deliver = function (data) {
-        eeEmit('triggerDeliver', data)
+    ee.deliver = function (data, cbProgress = function () {}) {
+        eeEmit('triggerDeliver', data, cbProgress)
     }
 
 

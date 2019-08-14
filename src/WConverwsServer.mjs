@@ -6,8 +6,8 @@ import genPm from 'wsemi/src/genPm.mjs'
 import urlParse from 'wsemi/src/urlParse.mjs'
 import getdtvstr from 'wsemi/src/getdtvstr.mjs'
 import isfun from 'wsemi/src/isfun.mjs'
-import obj2str from 'wsemi/src/obj2str.mjs'
-import str2obj from 'wsemi/src/str2obj.mjs'
+import sendSplitData from './sendSplitData.mjs'
+import mergeSplitData from './mergeSplitData.mjs'
 
 
 /**
@@ -17,6 +17,7 @@ import str2obj from 'wsemi/src/str2obj.mjs'
  * @param {Object} [opt={}] 輸入設定物件，預設{}
  * @param {Integer} [opt.port=8080] 輸入WebSocket伺服器所在port，預設8080
  * @param {Function} opt.authenticate 輸入使用者身份認證函數，供伺服器端驗證之用，函數會傳入使用者端連線之token參數，回傳為Promise，resolve(true)為驗證通過，resolve(false)為驗證不通過
+ * @param {Integer} [opt.strSplitLength=1000000] 輸入傳輸封包長度整數，預設為1000000
  * @returns {Object} 回傳通訊物件，可監聽事件open、error、clientChange、execute、broadcast、deliver，可使用函數broadcast
  * @example
  *
@@ -38,12 +39,21 @@ import str2obj from 'wsemi/src/str2obj.mjs'
  * let wo = new WConverwsServer(opt)
  *
  * wo.on('open', function() {
+ *     //console.log(`Server[port:${opt.port}]: open`)
  *     console.log(`Server running at: ws://localhost:${opt.port}`)
  *
  *     //broadcast
- *     setTimeout(() => {
- *         wo.broadcast(`server: broadcast: hi`)
- *     }, 5000)
+ *     // let n = 0
+ *     // setInterval(() => {
+ *     //     n += 1
+ *     //     let o = {
+ *     //         text: `server broadcast hi(${n})`,
+ *     //         data: new Uint8Array([66, 97, 115]), //support Uint8Array data
+ *     //     }
+ *     //     wo.broadcast(o, function (prog) {
+ *     //         console.log('broadcast prog', prog)
+ *     //     })
+ *     // }, 1000)
  *
  * })
  * wo.on('error', function(err) {
@@ -52,7 +62,7 @@ import str2obj from 'wsemi/src/str2obj.mjs'
  * wo.on('clientChange', function(clients) {
  *     console.log(`Server[port:${opt.port}]: now clients: ${clients.length}`)
  * })
- * wo.on('execute', function(func, input, callback, sendData) {
+ * wo.on('execute', function(func, input, callback) {
  *     console.log(`Server[port:${opt.port}]: execute`, func, input)
  *
  *     if (func === 'add') {
@@ -62,8 +72,8 @@ import str2obj from 'wsemi/src/str2obj.mjs'
  *
  * })
  * wo.on('broadcast', function(data) {
-    *     console.log(`Server[port:${opt.port}]: broadcast`, data)
-    * })
+ *     console.log(`Server[port:${opt.port}]: broadcast`, data)
+ * })
  * wo.on('deliver', function(data) {
  *     console.log(`Server[port:${opt.port}]: deliver`, data)
  * })
@@ -79,6 +89,9 @@ function WConverwsServer(opt = {}) {
     //default
     if (!opt.port) {
         opt.port = 8080
+    }
+    if (!opt.strSplitLength) {
+        opt.strSplitLength = 1000000
     }
 
     //ee
@@ -226,14 +239,15 @@ function WConverwsServer(opt = {}) {
         })
 
 
-        function sendData(data) {
+        function sendData(data, cbProgress) {
             //console.log('sendData', data)
             if (wsc.readyState === WebSocket.OPEN) {
-                wsc.send(obj2str(data), function(err) {
-                    if (err) {
-                        error({ msg: 'can not send message', err: err })
-                    }
+
+                //sendSplitData
+                sendSplitData(wsc, opt.strSplitLength, data, cbProgress, function (err) {
+                    error({ msg: 'can not send message', err: err })
                 })
+
             }
         }
 
@@ -255,7 +269,7 @@ function WConverwsServer(opt = {}) {
                 data['output'] = output
 
                 //sendData
-                sendData(data)
+                sendData(data, null) //回傳執行結果就不處理進度回調
 
             }
 
@@ -294,17 +308,14 @@ function WConverwsServer(opt = {}) {
         function message(message) {
             //console.log('message', message)
 
-            //data
-            let data = str2obj(message)
-
-            //parserData
-            parserData(data)
+            //mergeSplitData
+            mergeSplitData(message, parserData)
 
         }
         wsc.on('message', message)
 
 
-        function triggerBroadcast(data) {
+        function triggerBroadcast(data, cbProgress) {
 
             //msg
             let msg = {
@@ -313,12 +324,9 @@ function WConverwsServer(opt = {}) {
             }
 
             //sendData
-            sendData(msg)
+            sendData(msg, cbProgress)
 
         }
-
-
-        //需封裝單一傳輸send給外面用
 
 
         //triggerBroadcast, 需對全部客戶端廣播, 不能清除過去監聽事件
@@ -380,8 +388,8 @@ function WConverwsServer(opt = {}) {
      * let data = {...}
      * wo.broadcast(data)
      */
-    ee.broadcast = function (data) {
-        eeEmit('triggerBroadcast', data)
+    ee.broadcast = function (data, cbProgress = function () {}) {
+        eeEmit('triggerBroadcast', data, cbProgress)
     }
 
 

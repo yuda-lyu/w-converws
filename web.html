@@ -49,30 +49,40 @@
                 logData('client web: openOnce')
 
                 //execute
-                wo.execute('add', { p1: 1, p2: 2 })
+                wo.execute('add', { p1: 1, p2: 2 },
+                    function (prog) {
+                        logData('client web: execute prog=', prog)
+                    })
                     .then(function(r) {
-                        logData('execute: add', r)
+                        logData('client web: execute: add=', r)
                     })
 
                 //broadcast
-                wo.broadcast('client web: broadcast: hi')
+                wo.broadcast('client web: broadcast: hi', function (prog) {
+                    logData('client web: broadcast prog=', prog)
+                })
+
+                //deliver
+                wo.deliver('client web: deliver: hi', function (prog) {
+                    logData('client web: deliver prog=', prog)
+                })
 
             })
             wo.on('close', function() {
                 logData('client web: close')
             })
             wo.on('error', function(err) {
-                logData('client web: error', err)
+                logData('client web: error=', err)
             })
             wo.on('reconn', function() {
                 logData('client web: reconn')
             })
             wo.on('broadcast', function(data) {
-                logData('client web: broadcast', data)
+                logData('client web: broadcast=', data)
             })
-            wo.on('deliver', function(data) {
-                logData('client web: deliver', data)
-            })
+            // wo.on('deliver', function(data) { //伺服器目前無法針對client直接deliver
+            //     logData('client web: deliver', data)
+            // })
 
         </script>
 

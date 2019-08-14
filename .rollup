@@ -50,7 +50,7 @@ let optPlugins = [
 
 let fd_src = 'src/'
 let fd_tar = 'dist/'
-let cps = ["WConverwsClient","WConverwsServer"]
+let cps = ["mergeSplitData","sendSplitData","WConverwsClient","WConverwsServer"]
 
 
 let rs = _.map(cps, function(v) {

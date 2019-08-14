@@ -43,16 +43,21 @@ let opt = {
 let wo = new WConverwsServer(opt)
 
 wo.on('open', function() {
+    //console.log(`Server[port:${opt.port}]: open`)
     console.log(`Server running at: ws://localhost:${opt.port}`)
 
-    let n = 0
-    setInterval(() => {
-        n += 1
-
-        //broadcast
-        wo.broadcast(`server: broadcast: hi(${n})`)
-
-    }, 1000)
+    //broadcast
+    // let n = 0
+    // setInterval(() => {
+    //     n += 1
+    //     let o = {
+    //         text: `server broadcast hi(${n})`,
+    //         data: new Uint8Array([66, 97, 115]), //support Uint8Array data
+    //     }
+    //     wo.broadcast(o, function (prog) {
+    //         console.log('broadcast prog', prog)
+    //     })
+    // }, 1000)
 
 })
 wo.on('error', function(err) {
@@ -80,10 +85,12 @@ wo.on('deliver', function(data) {
 // Server running at: ws://localhost:8080
 // Server[port:8080]: now clients: 1
 // Server[port:8080]: execute add { p1: 1, p2: 2 }
-// Server[port:8080]: broadcast client nodejs[port:8080]: broadcast: hi
+// Server[port:8080]: broadcast client nodejs[port:8080] broadcast hi
+// Server[port:8080]: deliver client deliver hi
 // Server[port:8080]: now clients: 2
 // Server[port:8080]: execute add { p1: 1, p2: 2 }
 // Server[port:8080]: broadcast client web: broadcast: hi
+// Server[port:8080]: deliver client web: deliver: hi
 ```
 #### Example for w-converws-client:
 > **Link:** [[dev source code](https://github.com/yuda-lyu/w-converws/blob/master/scla.mjs)]
@@ -105,15 +112,23 @@ wo.on('openOnce', function() {
     console.log('client nodejs[port:8080]: openOnce')
 
     //execute
-    wo.execute('add', { p1: 1, p2: 2 })
+    wo.execute('add', { p1: 1, p2: 2 },
+        function (prog) {
+            console.log('execute prog', prog)
+        })
         .then(function(r) {
             console.log('execute: add', r)
         })
 
     //broadcast
-    setTimeout(() => {
-        wo.broadcast(`server: broadcast: hi`)
-    }, 5000)
+    wo.broadcast('client nodejs[port:8080] broadcast hi', function (prog) {
+        console.log('broadcast prog', prog)
+    })
+
+    //deliver
+    wo.deliver('client deliver hihi', function (prog) {
+        console.log('deliver prog', prog)
+    })
 
 })
 wo.on('close', function() {
@@ -128,14 +143,13 @@ wo.on('reconn', function() {
 wo.on('broadcast', function(data) {
     console.log('client nodejs[port:8080]: broadcast', data)
 })
-wo.on('deliver', function(data) {
-    console.log('client nodejs[port:8080]: deliver', data)
-})
 
 // client nodejs[port:8080]: open
 // client nodejs[port:8080]: openOnce
-// execute: add 3
-// client nodejs[port:8080]: broadcast server: broadcast: hi
+// client nodejs[port:8080]: execute prog= 100
+// client nodejs[port:8080]: broadcast prog= 100
+// client nodejs[port:8080]: deliver prog= 100
+// client nodejs[port:8080]: execute: add= 3
 ```
 
 ### In a browser(UMD module):
@@ -143,7 +157,7 @@ wo.on('deliver', function(data) {
 
 [Necessary] Add script for w-converws-client.
 ```alias
-<script src="https://cdn.jsdelivr.net/npm/w-converws@1.0.3/dist/w-converws-client.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/w-converws@1.0.4/dist/w-converws-client.umd.js"></script>
 ```
 #### Example for w-converws-client:
 > **Link:** [[dev source code](https://github.com/yuda-lyu/w-converws/blob/master/web.html)]
@@ -158,39 +172,48 @@ let WConverwsClient=window['w-converws-client']
 let wo = new WConverwsClient(opt)
 
 wo.on('open', function() {
-    console.log('client web: open')
+    logData('client web: open')
 })
 wo.on('openOnce', function() {
-    console.log('client web: openOnce')
+    logData('client web: openOnce')
 
     //execute
-    wo.execute('add', { p1: 1, p2: 2 })
+    wo.execute('add', { p1: 1, p2: 2 },
+        function (prog) {
+            console.log('execute prog', prog)
+        })
         .then(function(r) {
-            console.log('execute: add', r)
+            logData('execute: add', r)
         })
 
     //broadcast
-    wo.broadcast('client web: broadcast: hi')
+    wo.broadcast('client web: broadcast: hi', function (prog) {
+        console.log('broadcast prog', prog)
+    })
+
+    //deliver
+    wo.deliver('client web: deliver: hi', function (prog) {
+        console.log('deliver prog', prog)
+    })
 
 })
 wo.on('close', function() {
-    console.log('client web: close')
+    logData('client web: close')
 })
 wo.on('error', function(err) {
-    console.log('client web: error', err)
+    logData('client web: error', err)
 })
 wo.on('reconn', function() {
-    console.log('client web: reconn')
+    logData('client web: reconn')
 })
 wo.on('broadcast', function(data) {
-    console.log('client web: broadcast', data)
-})
-wo.on('deliver', function(data) {
-    console.log('client web: deliver', data)
+    logData('client web: broadcast', data)
 })
 
 // client web: open
 // client web: openOnce
-// execute: add 3
-// client web: broadcast server: broadcast: hi
+// client web: execute prog=100
+// client web: broadcast prog=100
+// client web: deliver prog=100
+// client web: execute: add=3
 ```
