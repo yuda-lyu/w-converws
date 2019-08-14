@@ -71,7 +71,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="WConverwsClient.mjs.html">WConverwsClient.mjs</a>, <a href="WConverwsClient.mjs.html#line64">line 64</a>
+        <a href="WConverwsClient.mjs.html">WConverwsClient.mjs</a>, <a href="WConverwsClient.mjs.html#line75">line 75</a>
     </li></ul></dd>
     
 
@@ -124,7 +124,7 @@
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>import WConverwsClient from 'w-converws/dist/w-converws-client.umd.js'let opt = {    url: 'ws://localhost:8080',    token: '*',}//newlet wo = new WConverwsClient(opt)wo.on('open', function() {    console.log('client nodejs[port:8080]: open')})wo.on('bOpened', function() {    console.log('client nodejs[port:8080]: bOpened')    //execute    wo.execute('add', { p1: 1, p2: 2 })        .then(function(r) {            console.log('execute: add', r)        })    //broadcast    wo.broadcast('broadcast: hi')})wo.on('close', function() {    console.log('client nodejs[port:8080]: close')})wo.on('error', function(err) {    console.log('client nodejs[port:8080]: error', err)})wo.on('reconn', function() {    console.log('client nodejs[port:8080]: reconn')})wo.on('broadcast', function(data) {    console.log('client nodejs[port:8080]: broadcast', data)})wo.on('deliver', function(data) {    console.log('client nodejs[port:8080]: deliver', data)})</code></pre>
+    <pre class="prettyprint"><code>import WConverwsClient from 'w-converws/dist/w-converws-client.umd.js'let opt = {    url: 'ws://localhost:8080',    token: '*',}//newlet wo = new WConverwsClient(opt)wo.on('open', function() {    console.log('client nodejs: open')})wo.on('openOnce', function() {    console.log('client nodejs: openOnce')    //execute    wo.execute('add', { p1: 1, p2: 2 },        function (prog) {            console.log('client nodejs: execute prog=', prog)        })        .then(function(r) {            console.log('client nodejs: execute: add=', r)        })    //broadcast    wo.broadcast('client nodejs broadcast hi', function (prog) {        console.log('client nodejs: broadcast prog=', prog)    })    //deliver    wo.deliver('client deliver hi', function (prog) {        console.log('client nodejs: deliver prog=', prog)    })})wo.on('close', function() {    console.log('client nodejs: close')})wo.on('error', function(err) {    console.log('client nodejs: error=', err)})wo.on('reconn', function() {    console.log('client nodejs: reconn')})wo.on('broadcast', function(data) {    console.log('client nodejs: broadcast=', data)})// wo.on('deliver', function(data) { //伺服器目前無法針對client直接deliver//     console.log('client nodejs: deliver', data)// })</code></pre>
 
 
 
@@ -275,6 +275,45 @@
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>strSplitLength</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Integer</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>1000000</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>輸入傳輸封包長度整數，預設為1000000</p></td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -363,7 +402,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="WConverwsClient.mjs.html">WConverwsClient.mjs</a>, <a href="WConverwsClient.mjs.html#line391">line 391</a>
+        <a href="WConverwsClient.mjs.html">WConverwsClient.mjs</a>, <a href="WConverwsClient.mjs.html#line397">line 397</a>
     </li></ul></dd>
     
 
@@ -504,7 +543,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="WConverwsClient.mjs.html">WConverwsClient.mjs</a>, <a href="WConverwsClient.mjs.html#line406">line 406</a>
+        <a href="WConverwsClient.mjs.html">WConverwsClient.mjs</a>, <a href="WConverwsClient.mjs.html#line412">line 412</a>
     </li></ul></dd>
     
 
@@ -645,7 +684,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="WConverwsClient.mjs.html">WConverwsClient.mjs</a>, <a href="WConverwsClient.mjs.html#line370">line 370</a>
+        <a href="WConverwsClient.mjs.html">WConverwsClient.mjs</a>, <a href="WConverwsClient.mjs.html#line373">line 373</a>
     </li></ul></dd>
     
 
@@ -841,7 +880,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="WConverwsClient.mjs.html">WConverwsClient.mjs</a>, <a href="WConverwsClient.mjs.html#line354">line 354</a>
+        <a href="WConverwsClient.mjs.html">WConverwsClient.mjs</a>, <a href="WConverwsClient.mjs.html#line357">line 357</a>
     </li></ul></dd>
     
 
@@ -982,7 +1021,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="WConverwsClient.mjs.html">WConverwsClient.mjs</a>, <a href="WConverwsClient.mjs.html#line166">line 166</a>
+        <a href="WConverwsClient.mjs.html">WConverwsClient.mjs</a>, <a href="WConverwsClient.mjs.html#line179">line 179</a>
     </li></ul></dd>
     
 
@@ -1074,7 +1113,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="WConverwsClient.mjs.html">WConverwsClient.mjs</a>, <a href="WConverwsClient.mjs.html#line367">line 367</a>
+        <a href="WConverwsClient.mjs.html">WConverwsClient.mjs</a>, <a href="WConverwsClient.mjs.html#line370">line 370</a>
     </li></ul></dd>
     
 
@@ -1215,7 +1254,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="WConverwsClient.mjs.html">WConverwsClient.mjs</a>, <a href="WConverwsClient.mjs.html#line183">line 183</a>
+        <a href="WConverwsClient.mjs.html">WConverwsClient.mjs</a>, <a href="WConverwsClient.mjs.html#line196">line 196</a>
     </li></ul></dd>
     
 
@@ -1356,7 +1395,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="WConverwsClient.mjs.html">WConverwsClient.mjs</a>, <a href="WConverwsClient.mjs.html#line133">line 133</a>
+        <a href="WConverwsClient.mjs.html">WConverwsClient.mjs</a>, <a href="WConverwsClient.mjs.html#line146">line 146</a>
     </li></ul></dd>
     
 
@@ -1448,7 +1487,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="WConverwsClient.mjs.html">WConverwsClient.mjs</a>, <a href="WConverwsClient.mjs.html#line148">line 148</a>
+        <a href="WConverwsClient.mjs.html">WConverwsClient.mjs</a>, <a href="WConverwsClient.mjs.html#line161">line 161</a>
     </li></ul></dd>
     
 
@@ -1540,7 +1579,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="WConverwsClient.mjs.html">WConverwsClient.mjs</a>, <a href="WConverwsClient.mjs.html#line430">line 430</a>
+        <a href="WConverwsClient.mjs.html">WConverwsClient.mjs</a>, <a href="WConverwsClient.mjs.html#line436">line 436</a>
     </li></ul></dd>
     
 
@@ -1635,7 +1674,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Sun Jul 28 2019 22:07:29 GMT+0800 (GMT+08:00) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Wed Aug 14 2019 15:20:53 GMT+0800 (GMT+08:00) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
