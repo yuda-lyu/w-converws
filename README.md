@@ -114,20 +114,20 @@ wo.on('openOnce', function() {
     //execute
     wo.execute('add', { p1: 1, p2: 2 },
         function (prog) {
-            console.log('execute prog', prog)
+            console.log('client nodejs[port:8080]: execute prog=', prog)
         })
         .then(function(r) {
-            console.log('execute: add', r)
+            console.log('client nodejs[port:8080]: execute: add=', r)
         })
 
     //broadcast
     wo.broadcast('client nodejs[port:8080] broadcast hi', function (prog) {
-        console.log('broadcast prog', prog)
+        console.log('client nodejs[port:8080]: broadcast prog=', prog)
     })
 
     //deliver
-    wo.deliver('client deliver hihi', function (prog) {
-        console.log('deliver prog', prog)
+    wo.deliver('client deliver hi', function (prog) {
+        console.log('client nodejs[port:8080]: deliver prog=', prog)
     })
 
 })
@@ -135,14 +135,17 @@ wo.on('close', function() {
     console.log('client nodejs[port:8080]: close')
 })
 wo.on('error', function(err) {
-    console.log('client nodejs[port:8080]: error', err)
+    console.log('client nodejs[port:8080]: error=', err)
 })
 wo.on('reconn', function() {
     console.log('client nodejs[port:8080]: reconn')
 })
 wo.on('broadcast', function(data) {
-    console.log('client nodejs[port:8080]: broadcast', data)
+    console.log('client nodejs[port:8080]: broadcast=', data)
 })
+// wo.on('deliver', function(data) { //伺服器目前無法針對client直接deliver
+//     console.log('client nodejs[port:8080]: deliver', data)
+// })
 
 // client nodejs[port:8080]: open
 // client nodejs[port:8080]: openOnce
@@ -180,20 +183,20 @@ wo.on('openOnce', function() {
     //execute
     wo.execute('add', { p1: 1, p2: 2 },
         function (prog) {
-            console.log('execute prog', prog)
+            logData('client web: execute prog=', prog)
         })
         .then(function(r) {
-            logData('execute: add', r)
+            logData('client web: execute: add=', r)
         })
 
     //broadcast
     wo.broadcast('client web: broadcast: hi', function (prog) {
-        console.log('broadcast prog', prog)
+        logData('client web: broadcast prog=', prog)
     })
 
     //deliver
     wo.deliver('client web: deliver: hi', function (prog) {
-        console.log('deliver prog', prog)
+        logData('client web: deliver prog=', prog)
     })
 
 })
@@ -201,14 +204,17 @@ wo.on('close', function() {
     logData('client web: close')
 })
 wo.on('error', function(err) {
-    logData('client web: error', err)
+    logData('client web: error=', err)
 })
 wo.on('reconn', function() {
     logData('client web: reconn')
 })
 wo.on('broadcast', function(data) {
-    logData('client web: broadcast', data)
+    logData('client web: broadcast=', data)
 })
+// wo.on('deliver', function(data) { //伺服器目前無法針對client直接deliver
+//     logData('client web: deliver', data)
+// })
 
 // client web: open
 // client web: openOnce
