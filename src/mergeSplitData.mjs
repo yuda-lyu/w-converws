@@ -1,4 +1,6 @@
 import split from 'lodash/split'
+import drop from 'lodash/drop'
+import join from 'lodash/join'
 import each from 'lodash/each'
 import range from 'lodash/range'
 import toNumber from 'lodash/toNumber'
@@ -22,7 +24,7 @@ function mergeSplitData(msg, parserData) {
     let pkn = toNumber(ss[2])
 
     //str
-    let str = ss[3]
+    let str = join(drop(ss, 3)) //因數據本身可能就含有「|」故需合併回去
 
     //default
     if (!haskey(sData, pkid)) {
