@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>WConverwsServer.mjs - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="WConverwsClient.html">WConverwsClient</a><ul class='methods'><li data-type='method'><a href="WConverwsClient.html#.broadcast">broadcast</a></li><li data-type='method'><a href="WConverwsClient.html#.deliver">deliver</a></li><li data-type='method'><a href="WConverwsClient.html#.execute">execute</a></li><li data-type='method'><a href="WConverwsClient.html#.onBroadcast">onBroadcast</a></li><li data-type='method'><a href="WConverwsClient.html#.onClose">onClose</a></li><li data-type='method'><a href="WConverwsClient.html#.onDeliver">onDeliver</a></li><li data-type='method'><a href="WConverwsClient.html#.onError">onError</a></li><li data-type='method'><a href="WConverwsClient.html#.onOpen">onOpen</a></li><li data-type='method'><a href="WConverwsClient.html#.onOpenOnce">onOpenOnce</a></li><li data-type='method'><a href="WConverwsClient.html#.onReconn">onReconn</a></li></ul></li><li><a href="WConverwsServer.html">WConverwsServer</a><ul class='methods'><li data-type='method'><a href="WConverwsServer.html#.broadcast">broadcast</a></li><li data-type='method'><a href="WConverwsServer.html#.onBroadcast">onBroadcast</a></li><li data-type='method'><a href="WConverwsServer.html#.onClientChange">onClientChange</a></li><li data-type='method'><a href="WConverwsServer.html#.onDeliver">onDeliver</a></li><li data-type='method'><a href="WConverwsServer.html#.onError">onError</a></li><li data-type='method'><a href="WConverwsServer.html#.onExecute">onExecute</a></li><li data-type='method'><a href="WConverwsServer.html#.onOpen">onOpen</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">WConverwsServer.mjs</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import WebSocket from 'ws'
+import events from 'events'
+import cloneDeep from 'lodash/cloneDeep'
+import get from 'lodash/get'
+import genPm from 'wsemi/src/genPm.mjs'
+import urlParse from 'wsemi/src/urlParse.mjs'
+import getdtvstr from 'wsemi/src/getdtvstr.mjs'
+import isfun from 'wsemi/src/isfun.mjs'
+import sendSplitData from './sendSplitData.mjs'
+import mergeSplitData from './mergeSplitData.mjs'
+
+
+/**
+ * 建立WebSocket伺服器
+ *
+ * @class
+ * @param {Object} [opt={}] 輸入設定物件，預設{}
+ * @param {Integer} [opt.port=8080] 輸入WebSocket伺服器所在port，預設8080
+ * @param {Function} opt.authenticate 輸入使用者身份認證函數，供伺服器端驗證之用，函數會傳入使用者端連線之token參數，回傳為Promise，resolve(true)為驗證通過，resolve(false)為驗證不通過
+ * @param {Integer} [opt.strSplitLength=1000000] 輸入傳輸封包長度整數，預設為1000000
+ * @returns {Object} 回傳通訊物件，可監聽事件open、error、clientChange、execute、broadcast、deliver，可使用函數broadcast
+ * @example
+ *
+ * import WConverwsServer from 'w-converws/dist/w-converws-server.umd.js'
+ *
+ * let opt = {
+ *     port: 8080,
+ *     authenticate: function(token) {
+ *         //使用token驗證使用者身份
+ *         return new Promise(function(resolve, reject) {
+ *             setTimeout(function() {
+ *                 resolve(true)
+ *             }, 1000)
+ *         })
+ *     },
+ * }
+ *
+ * //new
+ * let wo = new WConverwsServer(opt)
+ *
+ * wo.on('open', function() {
+ *     //console.log(`Server[port:${opt.port}]: open`)
+ *     console.log(`Server running at: ws://localhost:${opt.port}`)
+ *
+ *     //broadcast
+ *     // let n = 0
+ *     // setInterval(() => {
+ *     //     n += 1
+ *     //     let o = {
+ *     //         text: `server broadcast hi(${n})`,
+ *     //         data: new Uint8Array([66, 97, 115]), //support Uint8Array data
+ *     //     }
+ *     //     wo.broadcast(o, function (prog) {
+ *     //         console.log('broadcast prog', prog)
+ *     //     })
+ *     // }, 1000)
+ *
+ * })
+ * wo.on('error', function(err) {
+ *     console.log(`Server[port:${opt.port}]: error`, err)
+ * })
+ * wo.on('clientChange', function(clients) {
+ *     console.log(`Server[port:${opt.port}]: now clients: ${clients.length}`)
+ * })
+ * wo.on('execute', function(func, input, callback) {
+ *     console.log(`Server[port:${opt.port}]: execute`, func, input)
+ *
+ *     if (func === 'add') {
+ *         let r = input.p1 + input.p2
+ *         callback(r)
+ *     }
+ *
+ * })
+ * wo.on('broadcast', function(data) {
+ *     console.log(`Server[port:${opt.port}]: broadcast`, data)
+ * })
+ * wo.on('deliver', function(data) {
+ *     console.log(`Server[port:${opt.port}]: deliver`, data)
+ * })
+ *
+ */
+function WConverwsServer(opt = {}) {
+
+
+    //cloneDeep
+    opt = cloneDeep(opt)
+
+
+    //default
+    if (!opt.port) {
+        opt.port = 8080
+    }
+    if (!opt.strSplitLength) {
+        opt.strSplitLength = 1000000
+    }
+
+    //ee
+    let ee = new events.EventEmitter()
+
+
+    //eeEmit
+    function eeEmit(name, ...args) {
+        setTimeout(() => {
+            ee.emit(name, ...args)
+        }, 1)
+    }
+
+
+    //WebSocketServer
+    let WebSocketServer = WebSocket.Server
+
+
+    //authenticate
+    function authenticate(token) {
+        let pm = genPm()
+        if (isfun(opt.authenticate)) {
+            opt.authenticate(token)
+                .then(function(vd) {
+                    pm.resolve(vd)
+                })
+        }
+        else {
+            pm.resolve(true)
+        }
+        return pm
+    }
+
+
+    //serverSettings
+    let serverSettings = {
+        port: opt.port,
+        verifyClient: function(info, done) {
+
+            //data
+            let data = urlParse(info.req.url)
+
+            //token
+            let token = getdtvstr(data, 'token')
+
+            //vd
+            authenticate(token)
+                .then(function(vd) {
+
+                    //done callback
+                    done(vd)
+
+                })
+                //不使用catch, 因沒有reject
+
+        }
+    }
+
+
+    //wss
+    let wss = null
+    try {
+        wss = new WebSocketServer(serverSettings)
+    }
+    catch (err) {
+        error({ msg: 'can not create websocket', err: err })
+    }
+
+
+    //check
+    if (!wss) {
+        return ee
+    }
+
+
+    /**
+     * WebSocket監聽開啟事件
+     *
+     * @memberof WConverwsServer
+     * @example
+     * wo.on('open', function() {
+     *     ...
+     * })
+     */
+    function onOpen() {} onOpen()
+    function open() {
+        eeEmit('open')
+    }
+    open()
+
+
+    /**
+     * WebSocket監聽錯誤事件
+     *
+     * @memberof WConverwsServer
+     * @param {*} err 傳入錯誤訊息
+     * @example
+     * wo.on('error', function(err) {
+     *     ...
+     * })
+     */
+    function onError() {} onError()
+    function error(err) {
+        eeEmit('error', err)
+    }
+
+
+    /**
+     * WebSocket監聽客戶端變更(上下線)事件
+     *
+     * @memberof WConverwsServer
+     * @param {Array} clients 傳入Websocket客戶端物件陣列
+     * @example
+     * wo.on('clientChange', function(clients) {
+     *     ...
+     * })
+     */
+    function onClientChange() {} onClientChange()
+    function clientChange() {
+        eeEmit('clientChange', clients)
+    }
+
+
+    //connection
+    let clients = []
+    wss.on('connection', function(wsc, req) {
+        //console.log('connection', wsc)
+        //console.log('connection', req.connection.remoteAddress)
+
+
+        //client connected
+        clients.push(wsc)
+        clientChange()
+
+
+        //client close
+        wsc.on('close', function () {
+
+            //刪除ws
+            clients = clients.filter(function(wst) {
+                return wst !== wsc
+            })
+            clientChange()
+
+        })
+
+
+        function sendData(data, cbProgress) {
+            //console.log('sendData', data)
+            if (wsc.readyState === WebSocket.OPEN) {
+
+                //sendSplitData
+                sendSplitData(wsc, opt.strSplitLength, data, cbProgress, function (err) {
+                    error({ msg: 'can not send message', err: err })
+                })
+
+            }
+        }
+
+
+        //bind for execute
+        wsc.sendData = sendData
+
+
+        function parserData(data) {
+            //console.log('parserData', data)
+
+            //_mode
+            let _mode = getdtvstr(data, '_mode')
+
+            //callback
+            function callback(output) {
+
+                //add output
+                data['output'] = output
+
+                //sendData
+                sendData(data, null) //回傳執行結果就不處理進度回調
+
+            }
+
+            //emit
+            if (_mode === 'execute') {
+
+                //func
+                let func = getdtvstr(data, 'func')
+
+                //input
+                let input = get(data, 'input')
+
+                //execute 執行
+                eeEmit('execute', func, input, callback, sendData)
+
+            }
+            else if (_mode === 'broadcast') {
+
+                //broadcast 廣播
+                eeEmit('broadcast', get(data, 'data'))
+
+            }
+            else if (_mode === 'deliver') {
+
+                //deliver 交付
+                eeEmit('deliver', get(data, 'data'))
+
+            }
+            else {
+                error({ msg: 'can not find _mode in data', err: data })
+            }
+
+        }
+
+
+        function message(message) {
+            //console.log('message', message)
+
+            //mergeSplitData
+            mergeSplitData(message, parserData)
+
+        }
+        wsc.on('message', message)
+
+
+        function triggerBroadcast(data, cbProgress) {
+
+            //msg
+            let msg = {
+                _mode: 'broadcast',
+                data: data,
+            }
+
+            //sendData
+            sendData(msg, cbProgress)
+
+        }
+
+
+        //triggerBroadcast, 需對全部客戶端廣播, 不能清除過去監聽事件
+        ee.on('triggerBroadcast', triggerBroadcast)
+
+
+    })
+
+
+    /**
+     * WebSocket監聽客戶端執行事件
+     *
+     * @memberof WConverwsServer
+     * @param {String} func 傳入執行函數名稱字串
+     * @param {*} input 傳入執行函數之輸入數據
+     * @param {Function} callback 傳入執行函數之回調函數
+     * @param {Function} sendData 傳入執行函數之強制回傳函數，提供傳送任意訊息給客戶端，供由服器多次回傳數據之用
+     * @example
+     * wo.on('execute', function(func, input, callback, sendData) {
+     *     ...
+     * })
+     */
+    function onExecute() {} onExecute()
+
+
+    /**
+     * WebSocket監聽客戶端廣播事件
+     *
+     * @memberof WConverwsServer
+     * @param {*} data 傳入廣播訊息
+     * @example
+     * wo.on('broadcast', function(data) {
+     *     ...
+     * })
+     */
+    function onBroadcast() {} onBroadcast()
+
+
+    /**
+     * WebSocket監聽客戶端交付事件
+     *
+     * @memberof WConverwsServer
+     * @param {*} data 傳入交付訊息
+     * @example
+     * wo.on('deliver', function(data) {
+     *     ...
+     * })
+     */
+    function onDeliver() {} onDeliver()
+
+
+    /**
+     * WebSocket通訊物件對客戶端廣播函數
+     *
+     * @memberof WConverwsServer
+     * @function broadcast
+     * @param {*} data 輸入廣播函數之輸入資訊
+     * @example
+     * let data = {...}
+     * wo.broadcast(data)
+     */
+    ee.broadcast = function (data, cbProgress = function () {}) {
+        eeEmit('triggerBroadcast', data, cbProgress)
+    }
+
+
+    return ee
+}
+
+
+export default WConverwsServer
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Wed Aug 14 2019 15:20:53 GMT+0800 (GMT+08:00) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>
