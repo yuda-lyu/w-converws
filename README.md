@@ -19,7 +19,10 @@ To view documentation or get support, visit [docs](https://yuda-lyu.github.io/w-
 
 ## Installation
 ### Using npm(ES6 module):
-> **Note:** `w-converws-server` depends on `ws` and `events`, `w-converws-client` depends on `w-websocket-client` and `wolfy87-eventemitter`.
+> **Note:** `w-converws-server` depends on `ws` and `events`.
+
+> **Note:** `w-converws-client` depends on `w-websocket-client` and `wolfy87-eventemitter`.
+
 ```alias
 npm i w-converws
 ```
