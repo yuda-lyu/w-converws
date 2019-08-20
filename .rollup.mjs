@@ -54,7 +54,7 @@ let cps = {cps}
 
 
 let rs = _.map(cps, function(v) {
-    let name = _.kebabCase(v)
+    let name = v //_.kebabCase(v)
     let input = `${fd_src}${v}.mjs`
     let file = `${fd_tar}${name}.umd.js`
     let banner = `/*!\n * ${name} v${pkg.version}\n * (c) 2018-2019 ${pkg.author}\n * Released under the MIT License.\n */`
