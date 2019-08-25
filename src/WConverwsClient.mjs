@@ -131,6 +131,15 @@ function WConverwsClient(opt) {
         catch (err) {
             eeEmit('error', { msg: 'can not create websocket', err: err })
             reconn()
+            return
+        }
+
+
+        //check
+        if (get(wsc, 'error')) {
+            eeEmit('error', { msg: 'can not create websocket', err: 'can not new MixWS in WWebsocketClient' })
+            reconn()
+            return
         }
 
 
