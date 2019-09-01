@@ -1,6 +1,6 @@
 {
   "name": "w-converws",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "description": "An operator for websocket in nodejs and browser.",
   "main": "dist/w-converws-server.umd.js",
   "dependencies": {
@@ -47,7 +47,7 @@
     "wsemi": "^1.2.25"
   },
   "scripts": {
-    "test": "mocha --require @babel/register",
+    "test": "./node_modules/.bin/mocha --require @babel/register",
     "deploy": "gh-pages -d docs"
   },
   "repository": {
