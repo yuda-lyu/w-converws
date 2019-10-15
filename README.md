@@ -46,8 +46,7 @@ let opt = {
 let wo = new WConverwsServer(opt)
 
 wo.on('open', function() {
-    //console.log(`Server[port:${opt.port}]: open`)
-    console.log(`Server running at: ws://localhost:${opt.port}`)
+    console.log(`Server[port:${opt.port}]: open`)
 
     //broadcast
     // let n = 0
@@ -163,7 +162,7 @@ wo.on('broadcast', function(data) {
 
 [Necessary] Add script for w-converws-client.
 ```alias
-<script src="https://cdn.jsdelivr.net/npm/w-converws@1.0.20/dist/w-converws-client.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/w-converws@1.0.21/dist/w-converws-client.umd.js"></script>
 ```
 #### Example for w-converws-client:
 > **Link:** [[dev source code](https://github.com/yuda-lyu/w-converws/blob/master/web.html)]

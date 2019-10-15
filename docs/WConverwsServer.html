@@ -71,7 +71,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="WConverwsServer.mjs.html">WConverwsServer.mjs</a>, <a href="WConverwsServer.mjs.html#line82">line 82</a>
+        <a href="WConverwsServer.mjs.html">WConverwsServer.mjs</a>, <a href="WConverwsServer.mjs.html#line81">line 81</a>
     </li></ul></dd>
     
 
@@ -124,7 +124,7 @@
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>import WConverwsServer from 'w-converws/dist/w-converws-server.umd.js'let opt = {    port: 8080,    authenticate: function(token) {        //使用token驗證使用者身份        return new Promise(function(resolve, reject) {            setTimeout(function() {                resolve(true)            }, 1000)        })    },}//newlet wo = new WConverwsServer(opt)wo.on('open', function() {    //console.log(`Server[port:${opt.port}]: open`)    console.log(`Server running at: ws://localhost:${opt.port}`)    //broadcast    // let n = 0    // setInterval(() => {    //     n += 1    //     let o = {    //         text: `server broadcast hi(${n})`,    //         data: new Uint8Array([66, 97, 115]), //support Uint8Array data    //     }    //     wo.broadcast(o, function (prog) {    //         console.log('broadcast prog', prog)    //     })    // }, 1000)})wo.on('error', function(err) {    console.log(`Server[port:${opt.port}]: error`, err)})wo.on('clientChange', function(clients) {    console.log(`Server[port:${opt.port}]: now clients: ${clients.length}`)})wo.on('execute', function(func, input, callback) {    console.log(`Server[port:${opt.port}]: execute`, func, input)    if (func === 'add') {        let r = input.p1 + input.p2        callback(r)    }})wo.on('broadcast', function(data) {    console.log(`Server[port:${opt.port}]: broadcast`, data)})wo.on('deliver', function(data) {    console.log(`Server[port:${opt.port}]: deliver`, data)})</code></pre>
+    <pre class="prettyprint"><code>import WConverwsServer from 'w-converws/dist/w-converws-server.umd.js'let opt = {    port: 8080,    authenticate: function(token) {        //使用token驗證使用者身份        return new Promise(function(resolve, reject) {            setTimeout(function() {                resolve(true)            }, 1000)        })    },}//newlet wo = new WConverwsServer(opt)wo.on('open', function() {    console.log(`Server[port:${opt.port}]: open`)    //broadcast    // let n = 0    // setInterval(() => {    //     n += 1    //     let o = {    //         text: `server broadcast hi(${n})`,    //         data: new Uint8Array([66, 97, 115]), //support Uint8Array data    //     }    //     wo.broadcast(o, function (prog) {    //         console.log('broadcast prog', prog)    //     })    // }, 1000)})wo.on('error', function(err) {    console.log(`Server[port:${opt.port}]: error`, err)})wo.on('clientChange', function(clients) {    console.log(`Server[port:${opt.port}]: now clients: ${clients.length}`)})wo.on('execute', function(func, input, callback) {    console.log(`Server[port:${opt.port}]: execute`, func, input)    if (func === 'add') {        let r = input.p1 + input.p2        callback(r)    }})wo.on('broadcast', function(data) {    console.log(`Server[port:${opt.port}]: broadcast`, data)})wo.on('deliver', function(data) {    console.log(`Server[port:${opt.port}]: deliver`, data)})</code></pre>
 
 
 
@@ -418,7 +418,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="WConverwsServer.mjs.html">WConverwsServer.mjs</a>, <a href="WConverwsServer.mjs.html#line384">line 384</a>
+        <a href="WConverwsServer.mjs.html">WConverwsServer.mjs</a>, <a href="WConverwsServer.mjs.html#line383">line 383</a>
     </li></ul></dd>
     
 
@@ -559,7 +559,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="WConverwsServer.mjs.html">WConverwsServer.mjs</a>, <a href="WConverwsServer.mjs.html#line368">line 368</a>
+        <a href="WConverwsServer.mjs.html">WConverwsServer.mjs</a>, <a href="WConverwsServer.mjs.html#line367">line 367</a>
     </li></ul></dd>
     
 
@@ -700,7 +700,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="WConverwsServer.mjs.html">WConverwsServer.mjs</a>, <a href="WConverwsServer.mjs.html#line212">line 212</a>
+        <a href="WConverwsServer.mjs.html">WConverwsServer.mjs</a>, <a href="WConverwsServer.mjs.html#line211">line 211</a>
     </li></ul></dd>
     
 
@@ -841,7 +841,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="WConverwsServer.mjs.html">WConverwsServer.mjs</a>, <a href="WConverwsServer.mjs.html#line381">line 381</a>
+        <a href="WConverwsServer.mjs.html">WConverwsServer.mjs</a>, <a href="WConverwsServer.mjs.html#line380">line 380</a>
     </li></ul></dd>
     
 
@@ -982,7 +982,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="WConverwsServer.mjs.html">WConverwsServer.mjs</a>, <a href="WConverwsServer.mjs.html#line196">line 196</a>
+        <a href="WConverwsServer.mjs.html">WConverwsServer.mjs</a>, <a href="WConverwsServer.mjs.html#line195">line 195</a>
     </li></ul></dd>
     
 
@@ -1123,7 +1123,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="WConverwsServer.mjs.html">WConverwsServer.mjs</a>, <a href="WConverwsServer.mjs.html#line355">line 355</a>
+        <a href="WConverwsServer.mjs.html">WConverwsServer.mjs</a>, <a href="WConverwsServer.mjs.html#line354">line 354</a>
     </li></ul></dd>
     
 
@@ -1333,7 +1333,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="WConverwsServer.mjs.html">WConverwsServer.mjs</a>, <a href="WConverwsServer.mjs.html#line179">line 179</a>
+        <a href="WConverwsServer.mjs.html">WConverwsServer.mjs</a>, <a href="WConverwsServer.mjs.html#line178">line 178</a>
     </li></ul></dd>
     
 
@@ -1428,7 +1428,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Fri Sep 06 2019 11:32:02 GMT+0800 (GMT+08:00) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Tue Oct 15 2019 21:22:09 GMT+0800 (GMT+08:00) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

@@ -17,8 +17,7 @@ let opt = {
 let wo = new WConverwsServer(opt)
 
 wo.on('open', function() {
-    //console.log(`Server[port:${opt.port}]: open`)
-    console.log(`Server running at: ws://localhost:${opt.port}`)
+    console.log(`Server[port:${opt.port}]: open`)
 
     //broadcast
     // let n = 0
