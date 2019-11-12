@@ -1,6 +1,5 @@
 import WebSocket from 'ws'
 import events from 'events'
-import cloneDeep from 'lodash/cloneDeep'
 import get from 'lodash/get'
 import genPm from 'wsemi/src/genPm.mjs'
 import urlParse from 'wsemi/src/urlParse.mjs'
@@ -79,10 +78,6 @@ import mergeSplitData from './mergeSplitData.mjs'
  *
  */
 function WConverwsServer(opt = {}) {
-
-
-    //cloneDeep
-    opt = cloneDeep(opt)
 
 
     //default
