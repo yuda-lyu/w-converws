@@ -3,7 +3,6 @@ import events from 'events'
 import get from 'lodash/get'
 import genPm from 'wsemi/src/genPm.mjs'
 import urlParse from 'wsemi/src/urlParse.mjs'
-import getdtvstr from 'wsemi/src/getdtvstr.mjs'
 import isfun from 'wsemi/src/isfun.mjs'
 import sendSplitData from './sendSplitData.mjs'
 import mergeSplitData from './mergeSplitData.mjs'
@@ -129,7 +128,7 @@ function WConverwsServer(opt = {}) {
             let data = urlParse(info.req.url)
 
             //token
-            let token = getdtvstr(data, 'token')
+            let token = get(data, 'token', '')
 
             //vd
             authenticate(token)
@@ -197,7 +196,6 @@ function WConverwsServer(opt = {}) {
      * WebSocket監聽客戶端變更(上下線)事件
      *
      * @memberof WConverwsServer
-     * @param {Array} clients 傳入Websocket客戶端物件陣列
      * @example
      * wo.on('clientChange', function(clients) {
      *     ...
@@ -254,7 +252,7 @@ function WConverwsServer(opt = {}) {
             //console.log('parserData', data)
 
             //_mode
-            let _mode = getdtvstr(data, '_mode')
+            let _mode = get(data, '_mode', '')
 
             //cbResult for execute
             function cbResult(output) {
@@ -274,7 +272,7 @@ function WConverwsServer(opt = {}) {
             if (_mode === 'execute') {
 
                 //func
-                let func = getdtvstr(data, 'func')
+                let func = get(data, 'func', '')
 
                 //input
                 let input = get(data, 'input')

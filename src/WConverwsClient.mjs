@@ -3,7 +3,6 @@ import WSC from 'w-websocket-client/src/WWebsocketClient.mjs'
 import get from 'lodash/get'
 import genPm from 'wsemi/src/genPm.mjs'
 import genID from 'wsemi/src/genID.mjs'
-import getdtvstr from 'wsemi/src/getdtvstr.mjs'
 import sendSplitData from './sendSplitData.mjs'
 import mergeSplitData from './mergeSplitData.mjs'
 
@@ -221,7 +220,7 @@ function WConverwsClient(opt) {
         function parserData(data) {
 
             //_mode
-            let _mode = getdtvstr(data, '_mode')
+            let _mode = get(data, '_mode', '')
 
             //emit
             if (_mode === 'execute') {
