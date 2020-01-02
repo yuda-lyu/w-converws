@@ -21,7 +21,7 @@ To view documentation or get support, visit [docs](https://yuda-lyu.github.io/w-
 ### Using npm(ES6 module):
 > **Note:** `w-converws-server` depends on `ws` and `events`.
 
-> **Note:** `w-converws-client` depends on `w-websocket-client` and `wolfy87-eventemitter`.
+> **Note:** `w-converws-client` depends on `w-websocket-client`.
 
 ```alias
 npm i w-converws
@@ -162,7 +162,7 @@ wo.on('broadcast', function(data) {
 
 [Necessary] Add script for w-converws-client.
 ```alias
-<script src="https://cdn.jsdelivr.net/npm/w-converws@1.0.25/dist/w-converws-client.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/w-converws@1.0.26/dist/w-converws-client.umd.js"></script>
 ```
 #### Example for w-converws-client:
 > **Link:** [[dev source code](https://github.com/yuda-lyu/w-converws/blob/master/web.html)]
