@@ -71,7 +71,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="WConverwsServer.mjs.html">WConverwsServer.mjs</a>, <a href="WConverwsServer.mjs.html#line79">line 79</a>
+        <a href="WConverwsServer.mjs.html">WConverwsServer.mjs</a>, <a href="WConverwsServer.mjs.html#line70">line 70</a>
     </li></ul></dd>
     
 
@@ -110,7 +110,7 @@
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>建立WebSocket伺服器</p>
 </div>
 
@@ -124,7 +124,7 @@
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>import WConverwsServer from 'w-converws/dist/w-converws-server.umd.js'let opt = {    port: 8080,    authenticate: function(token) {        //使用token驗證使用者身份        return new Promise(function(resolve, reject) {            setTimeout(function() {                resolve(true)            }, 1000)        })    },}//newlet wo = new WConverwsServer(opt)wo.on('open', function() {    console.log(`Server[port:${opt.port}]: open`)    //broadcast    // let n = 0    // setInterval(() => {    //     n += 1    //     let o = {    //         text: `server broadcast hi(${n})`,    //         data: new Uint8Array([66, 97, 115]), //support Uint8Array data    //     }    //     wo.broadcast(o, function (prog) {    //         console.log('broadcast prog', prog)    //     })    // }, 1000)})wo.on('error', function(err) {    console.log(`Server[port:${opt.port}]: error`, err)})wo.on('clientChange', function(clients) {    console.log(`Server[port:${opt.port}]: now clients: ${clients.length}`)})wo.on('execute', function(func, input, callback) {    console.log(`Server[port:${opt.port}]: execute`, func, input)    if (func === 'add') {        let r = input.p1 + input.p2        callback(r)    }})wo.on('broadcast', function(data) {    console.log(`Server[port:${opt.port}]: broadcast`, data)})wo.on('deliver', function(data) {    console.log(`Server[port:${opt.port}]: deliver`, data)})</code></pre>
+    <pre class="prettyprint"><code>import WConverwsServer from 'w-converws/dist/w-converws-server.umd.js'let opt = {    port: 8080,}//newlet wo = new WConverwsServer(opt)wo.on('open', function() {    console.log(`Server[port:${opt.port}]: open`)    //broadcast    // let n = 0    // setInterval(() => {    //     n += 1    //     let o = {    //         text: `server broadcast hi(${n})`,    //         data: new Uint8Array([66, 97, 115]), //support Uint8Array data    //     }    //     wo.broadcast(o, function (prog) {    //         console.log('broadcast prog', prog)    //     })    // }, 1000)})wo.on('error', function(err) {    console.log(`Server[port:${opt.port}]: error`, err)})wo.on('clientChange', function(clients) {    console.log(`Server[port:${opt.port}]: now clients: ${clients.length}`)})wo.on('execute', function(func, input, callback) {    console.log(`Server[port:${opt.port}]: execute`, func, input)    if (func === 'add') {        let r = input.p1 + input.p2        callback(r)    }})wo.on('broadcast', function(data) {    console.log(`Server[port:${opt.port}]: broadcast`, data)})wo.on('deliver', function(data) {    console.log(`Server[port:${opt.port}]: deliver`, data)})</code></pre>
 
 
 
@@ -259,41 +259,6 @@
 
         <tr>
             
-                <td class="name"><code>authenticate</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last"><p>輸入使用者身份認證函數，供伺服器端驗證之用，函數會傳入使用者端連線之token參數，回傳為Promise，resolve(true)為驗證通過，resolve(false)為驗證不通過</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
                 <td class="name"><code>strSplitLength</code></td>
             
 
@@ -418,7 +383,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="WConverwsServer.mjs.html">WConverwsServer.mjs</a>, <a href="WConverwsServer.mjs.html#line376">line 376</a>
+        <a href="WConverwsServer.mjs.html">WConverwsServer.mjs</a>, <a href="WConverwsServer.mjs.html#line333">line 333</a>
     </li></ul></dd>
     
 
@@ -457,7 +422,7 @@
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>WebSocket通訊物件對客戶端廣播函數</p>
 </div>
 
@@ -559,7 +524,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="WConverwsServer.mjs.html">WConverwsServer.mjs</a>, <a href="WConverwsServer.mjs.html#line360">line 360</a>
+        <a href="WConverwsServer.mjs.html">WConverwsServer.mjs</a>, <a href="WConverwsServer.mjs.html#line317">line 317</a>
     </li></ul></dd>
     
 
@@ -598,7 +563,7 @@
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>WebSocket監聽客戶端廣播事件</p>
 </div>
 
@@ -700,7 +665,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="WConverwsServer.mjs.html">WConverwsServer.mjs</a>, <a href="WConverwsServer.mjs.html#line204">line 204</a>
+        <a href="WConverwsServer.mjs.html">WConverwsServer.mjs</a>, <a href="WConverwsServer.mjs.html#line161">line 161</a>
     </li></ul></dd>
     
 
@@ -739,7 +704,7 @@
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>WebSocket監聽客戶端變更(上下線)事件</p>
 </div>
 
@@ -792,7 +757,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="WConverwsServer.mjs.html">WConverwsServer.mjs</a>, <a href="WConverwsServer.mjs.html#line373">line 373</a>
+        <a href="WConverwsServer.mjs.html">WConverwsServer.mjs</a>, <a href="WConverwsServer.mjs.html#line330">line 330</a>
     </li></ul></dd>
     
 
@@ -831,7 +796,7 @@
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>WebSocket監聽客戶端交付事件</p>
 </div>
 
@@ -933,7 +898,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="WConverwsServer.mjs.html">WConverwsServer.mjs</a>, <a href="WConverwsServer.mjs.html#line189">line 189</a>
+        <a href="WConverwsServer.mjs.html">WConverwsServer.mjs</a>, <a href="WConverwsServer.mjs.html#line146">line 146</a>
     </li></ul></dd>
     
 
@@ -972,7 +937,7 @@
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>WebSocket監聽錯誤事件</p>
 </div>
 
@@ -1074,7 +1039,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="WConverwsServer.mjs.html">WConverwsServer.mjs</a>, <a href="WConverwsServer.mjs.html#line347">line 347</a>
+        <a href="WConverwsServer.mjs.html">WConverwsServer.mjs</a>, <a href="WConverwsServer.mjs.html#line304">line 304</a>
     </li></ul></dd>
     
 
@@ -1113,7 +1078,7 @@
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>WebSocket監聽客戶端執行事件</p>
 </div>
 
@@ -1284,7 +1249,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="WConverwsServer.mjs.html">WConverwsServer.mjs</a>, <a href="WConverwsServer.mjs.html#line172">line 172</a>
+        <a href="WConverwsServer.mjs.html">WConverwsServer.mjs</a>, <a href="WConverwsServer.mjs.html#line129">line 129</a>
     </li></ul></dd>
     
 
@@ -1323,7 +1288,7 @@
 
 
 
-<div class="description">
+<div class="description usertext">
     <p>WebSocket監聽開啟事件</p>
 </div>
 
@@ -1379,7 +1344,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Thu Jan 02 2020 11:51:13 GMT+0800 (GMT+08:00) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Wed Mar 18 2020 12:23:34 GMT+0800 (台北標準時間) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
