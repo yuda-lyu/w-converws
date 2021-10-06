@@ -3,7 +3,6 @@ An operator for websocket in nodejs and browser.
 
 ![language](https://img.shields.io/badge/language-JavaScript-orange.svg) 
 [![npm version](http://img.shields.io/npm/v/w-converws.svg?style=flat)](https://npmjs.org/package/w-converws) 
-[![Build Status](https://travis-ci.org/yuda-lyu/w-converws.svg?branch=master)](https://travis-ci.org/yuda-lyu/w-converws) 
 [![license](https://img.shields.io/npm/l/w-converws.svg?style=flat)](https://npmjs.org/package/w-converws) 
 [![gzip file size](http://img.badgesize.io/yuda-lyu/w-converws/master/dist/w-converws-server.umd.js.svg?compression=gzip)](https://github.com/yuda-lyu/w-converws)
 [![npm download](https://img.shields.io/npm/dt/w-converws.svg)](https://npmjs.org/package/w-converws) 
