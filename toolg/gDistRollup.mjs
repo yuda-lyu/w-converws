@@ -17,11 +17,9 @@ rollupFiles({
     nameDistType: 'kebabCase',
     globals: {
         'ws': 'ws',
-        'events': 'events',
     },
     external: [
         'ws',
-        'events',
     ],
 })
 

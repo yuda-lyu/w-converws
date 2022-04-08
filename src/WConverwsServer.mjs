@@ -1,9 +1,8 @@
 import WebSocket, { WebSocketServer } from 'ws'
-import events from 'events'
 import get from 'lodash/get'
 // import genPm from 'wsemi/src/genPm.mjs'
 // import urlParse from 'wsemi/src/urlParse.mjs'
-// import isfun from 'wsemi/src/isfun.mjs'
+import evem from 'wsemi/src/evem.mjs'
 import sendSplitData from './sendSplitData.mjs'
 import mergeSplitData from './mergeSplitData.mjs'
 
@@ -80,7 +79,7 @@ function WConverwsServer(opt = {}) {
 
 
     //ee
-    let ee = new events.EventEmitter()
+    let ee = evem()
 
 
     //eeEmit

@@ -1,16 +1,16 @@
 {
   "name": "w-converws",
-  "version": "1.0.29",
+  "version": "1.0.30",
   "description": "An operator for websocket in nodejs and browser.",
   "main": "dist/w-converws-server.umd.js",
   "dependencies": {
     "lodash": "^4.17.21",
-    "w-websocket-client": "^1.0.22",
-    "ws": "^8.2.3",
-    "wsemi": "^1.6.19"
+    "w-websocket-client": "^1.0.24",
+    "ws": "^8.5.0",
+    "wsemi": "^1.6.54"
   },
   "devDependencies": {
-    "w-package-tools": "^1.0.59"
+    "w-package-tools": "^1.0.65"
   },
   "scripts": {
     "test": "mocha --parallel --timeout 60000 --experimental-modules --es-module-specifier-resolution=node",
