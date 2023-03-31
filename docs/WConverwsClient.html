@@ -14,6 +14,7 @@
     <link type="text/css" rel="stylesheet" href="styles/prettify.css">
     <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
     <script src="scripts/nav.js" defer></script>
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
@@ -27,7 +28,9 @@
 
 <nav >
     
+    
     <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="WConverwsClient.html">WConverwsClient</a><ul class='methods'><li data-type='method'><a href="WConverwsClient.html#.broadcast">broadcast</a></li><li data-type='method'><a href="WConverwsClient.html#.deliver">deliver</a></li><li data-type='method'><a href="WConverwsClient.html#.execute">execute</a></li><li data-type='method'><a href="WConverwsClient.html#.onBroadcast">onBroadcast</a></li><li data-type='method'><a href="WConverwsClient.html#.onClose">onClose</a></li><li data-type='method'><a href="WConverwsClient.html#.onDeliver">onDeliver</a></li><li data-type='method'><a href="WConverwsClient.html#.onError">onError</a></li><li data-type='method'><a href="WConverwsClient.html#.onOpen">onOpen</a></li><li data-type='method'><a href="WConverwsClient.html#.onOpenOnce">onOpenOnce</a></li><li data-type='method'><a href="WConverwsClient.html#.onReconn">onReconn</a></li></ul></li><li><a href="WConverwsServer.html">WConverwsServer</a><ul class='methods'><li data-type='method'><a href="WConverwsServer.html#.broadcast">broadcast</a></li><li data-type='method'><a href="WConverwsServer.html#.onBroadcast">onBroadcast</a></li><li data-type='method'><a href="WConverwsServer.html#.onClientChange">onClientChange</a></li><li data-type='method'><a href="WConverwsServer.html#.onDeliver">onDeliver</a></li><li data-type='method'><a href="WConverwsServer.html#.onError">onError</a></li><li data-type='method'><a href="WConverwsServer.html#.onExecute">onExecute</a></li><li data-type='method'><a href="WConverwsServer.html#.onOpen">onOpen</a></li></ul></li></ul>
+    
 </nav>
 
 <div id="main">
@@ -45,7 +48,9 @@
 <header>
     
         <h2>
-        WConverwsClient
+        
+            WConverwsClient
+        
         </h2>
         
     
@@ -67,6 +72,10 @@
 
 
 <dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>建立WebSocket使用者(Node.js與Browser)端物件</p></li></ul></dd>
+    
 
     
     <dt class="tag-source">Source:</dt>
@@ -110,26 +119,20 @@
 
 
 
-<div class="description usertext">
-    <p>建立WebSocket使用者(Node.js與Browser)端物件</p>
-</div>
 
 
 
 
 
 
-
-
-
-    <h5>Example</h5>
+    <h5 class="h5-examples">Example</h5>
     
     <pre class="prettyprint"><code>import WConverwsClient from 'w-converws/dist/w-converws-client.umd.js'let opt = {    url: 'ws://localhost:8080',    token: '*',}//newlet wo = new WConverwsClient(opt)wo.on('open', function() {    console.log('client nodejs: open')})wo.on('openOnce', function() {    console.log('client nodejs: openOnce')    //execute    wo.execute('add', { p1: 1, p2: 2 },        function (prog) {            console.log('client nodejs: execute prog=', prog)        })        .then(function(r) {            console.log('client nodejs: execute: add=', r)        })    //broadcast    wo.broadcast('client nodejs broadcast hi', function (prog) {        console.log('client nodejs: broadcast prog=', prog)    })    //deliver    wo.deliver('client deliver hi', function (prog) {        console.log('client nodejs: deliver prog=', prog)    })})wo.on('close', function() {    console.log('client nodejs: close')})wo.on('error', function(err) {    console.log('client nodejs: error=', err)})wo.on('reconn', function() {    console.log('client nodejs: reconn')})wo.on('broadcast', function(data) {    console.log('client nodejs: broadcast=', data)})// wo.on('deliver', function(data) { //伺服器目前無法針對client直接deliver//     console.log('client nodejs: deliver=', data)// })</code></pre>
 
 
 
 
-    <h5>Parameters:</h5>
+    <h5 class="h5-parameters">Parameters:</h5>
     
 
 <table class="params">
@@ -161,6 +164,7 @@
             
                 
 <span class="param-type">Object</span>
+
 
 
             
@@ -209,6 +213,7 @@
 <span class="param-type">String</span>
 
 
+
             
             </td>
 
@@ -248,6 +253,7 @@
 <span class="param-type">String</span>
 
 
+
             
             </td>
 
@@ -285,6 +291,7 @@
             
                 
 <span class="param-type">Integer</span>
+
 
 
             
@@ -339,7 +346,7 @@
 
 
 
-<h5>Returns:</h5>
+<h5 class="h5-returns">Returns:</h5>
 
         
 <div class="param-desc">
@@ -355,6 +362,7 @@
     <dd>
         
 <span class="param-type">Object</span>
+
 
 
     </dd>
@@ -390,7 +398,7 @@
 
     
 
-    <h4 class="name" id=".broadcast"><span class="type-signature">(static) </span>broadcast<span class="signature">(data)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".broadcast"><span class="type-signature type-signature-static">(static) </span>broadcast<span class="signature">(data)</span><span class="type-signature"></span></h4>
 
     
 
@@ -398,6 +406,10 @@
 
 
 <dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>WebSocket通訊物件對伺服器端廣播函數，表示傳送資料給伺服器，還需轉送其他客戶端</p></li></ul></dd>
+    
 
     
     <dt class="tag-source">Source:</dt>
@@ -441,26 +453,20 @@
 
 
 
-<div class="description usertext">
-    <p>WebSocket通訊物件對伺服器端廣播函數，表示傳送資料給伺服器，還需轉送其他客戶端</p>
-</div>
 
 
 
 
 
 
-
-
-
-    <h5>Example</h5>
+    <h5 class="h5-examples">Example</h5>
     
     <pre class="prettyprint"><code>let data = {...}wo.broadcast(data)</code></pre>
 
 
 
 
-    <h5>Parameters:</h5>
+    <h5 class="h5-parameters">Parameters:</h5>
     
 
 <table class="params">
@@ -492,6 +498,7 @@
             
                 
 <span class="param-type">*</span>
+
 
 
             
@@ -531,7 +538,7 @@
 
     
 
-    <h4 class="name" id=".deliver"><span class="type-signature">(static) </span>deliver<span class="signature">(data)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".deliver"><span class="type-signature type-signature-static">(static) </span>deliver<span class="signature">(data)</span><span class="type-signature"></span></h4>
 
     
 
@@ -539,6 +546,10 @@
 
 
 <dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>WebSocket通訊物件對伺服器端交付函數，表示僅傳送資料給伺服器</p></li></ul></dd>
+    
 
     
     <dt class="tag-source">Source:</dt>
@@ -582,26 +593,20 @@
 
 
 
-<div class="description usertext">
-    <p>WebSocket通訊物件對伺服器端交付函數，表示僅傳送資料給伺服器</p>
-</div>
 
 
 
 
 
 
-
-
-
-    <h5>Example</h5>
+    <h5 class="h5-examples">Example</h5>
     
     <pre class="prettyprint"><code>let data = {...}wo.deliver(data)</code></pre>
 
 
 
 
-    <h5>Parameters:</h5>
+    <h5 class="h5-parameters">Parameters:</h5>
     
 
 <table class="params">
@@ -633,6 +638,7 @@
             
                 
 <span class="param-type">*</span>
+
 
 
             
@@ -672,7 +678,7 @@
 
     
 
-    <h4 class="name" id=".execute"><span class="type-signature">(static) </span>execute<span class="signature">(func, input<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".execute"><span class="type-signature type-signature-static">(static) </span>execute<span class="signature">(func, input<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
@@ -680,6 +686,10 @@
 
 
 <dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>WebSocket通訊物件對伺服器端執行函數，表示傳送資料給伺服器，並請伺服器執行函數</p></li></ul></dd>
+    
 
     
     <dt class="tag-source">Source:</dt>
@@ -723,26 +733,20 @@
 
 
 
-<div class="description usertext">
-    <p>WebSocket通訊物件對伺服器端執行函數，表示傳送資料給伺服器，並請伺服器執行函數</p>
-</div>
 
 
 
 
 
 
-
-
-
-    <h5>Example</h5>
+    <h5 class="h5-examples">Example</h5>
     
     <pre class="prettyprint"><code>let func = 'NameOfFunction'let input = {...}wo.execute(func, input)</code></pre>
 
 
 
 
-    <h5>Parameters:</h5>
+    <h5 class="h5-parameters">Parameters:</h5>
     
 
 <table class="params">
@@ -780,6 +784,7 @@
 <span class="param-type">String</span>
 
 
+
             
             </td>
 
@@ -813,6 +818,7 @@
             
                 
 <span class="param-type">*</span>
+
 
 
             
@@ -868,7 +874,7 @@
 
     
 
-    <h4 class="name" id=".onBroadcast"><span class="type-signature">(static) </span>onBroadcast<span class="signature">(data)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".onBroadcast"><span class="type-signature type-signature-static">(static) </span>onBroadcast<span class="signature">(data)</span><span class="type-signature"></span></h4>
 
     
 
@@ -876,6 +882,10 @@
 
 
 <dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>WebSocket監聽伺服器端廣播事件</p></li></ul></dd>
+    
 
     
     <dt class="tag-source">Source:</dt>
@@ -919,26 +929,20 @@
 
 
 
-<div class="description usertext">
-    <p>WebSocket監聽伺服器端廣播事件</p>
-</div>
 
 
 
 
 
 
-
-
-
-    <h5>Example</h5>
+    <h5 class="h5-examples">Example</h5>
     
     <pre class="prettyprint"><code>wo.on('broadcast', function(data) {    ...})</code></pre>
 
 
 
 
-    <h5>Parameters:</h5>
+    <h5 class="h5-parameters">Parameters:</h5>
     
 
 <table class="params">
@@ -970,6 +974,7 @@
             
                 
 <span class="param-type">*</span>
+
 
 
             
@@ -1009,7 +1014,7 @@
 
     
 
-    <h4 class="name" id=".onClose"><span class="type-signature">(static) </span>onClose<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".onClose"><span class="type-signature type-signature-static">(static) </span>onClose<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
@@ -1017,6 +1022,10 @@
 
 
 <dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>WebSocket監聽關閉事件</p></li></ul></dd>
+    
 
     
     <dt class="tag-source">Source:</dt>
@@ -1060,19 +1069,13 @@
 
 
 
-<div class="description usertext">
-    <p>WebSocket監聽關閉事件</p>
-</div>
 
 
 
 
 
 
-
-
-
-    <h5>Example</h5>
+    <h5 class="h5-examples">Example</h5>
     
     <pre class="prettyprint"><code>wo.on('close', function() {    ...})</code></pre>
 
@@ -1101,7 +1104,7 @@
 
     
 
-    <h4 class="name" id=".onDeliver"><span class="type-signature">(static) </span>onDeliver<span class="signature">(data)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".onDeliver"><span class="type-signature type-signature-static">(static) </span>onDeliver<span class="signature">(data)</span><span class="type-signature"></span></h4>
 
     
 
@@ -1109,6 +1112,10 @@
 
 
 <dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>WebSocket監聽伺服器端交付事件</p></li></ul></dd>
+    
 
     
     <dt class="tag-source">Source:</dt>
@@ -1152,26 +1159,20 @@
 
 
 
-<div class="description usertext">
-    <p>WebSocket監聽伺服器端交付事件</p>
-</div>
 
 
 
 
 
 
-
-
-
-    <h5>Example</h5>
+    <h5 class="h5-examples">Example</h5>
     
     <pre class="prettyprint"><code>wo.on('deliver', function(data) {    ...})</code></pre>
 
 
 
 
-    <h5>Parameters:</h5>
+    <h5 class="h5-parameters">Parameters:</h5>
     
 
 <table class="params">
@@ -1203,6 +1204,7 @@
             
                 
 <span class="param-type">*</span>
+
 
 
             
@@ -1242,7 +1244,7 @@
 
     
 
-    <h4 class="name" id=".onError"><span class="type-signature">(static) </span>onError<span class="signature">(err)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".onError"><span class="type-signature type-signature-static">(static) </span>onError<span class="signature">(err)</span><span class="type-signature"></span></h4>
 
     
 
@@ -1250,6 +1252,10 @@
 
 
 <dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>WebSocket錯誤事件</p></li></ul></dd>
+    
 
     
     <dt class="tag-source">Source:</dt>
@@ -1293,26 +1299,20 @@
 
 
 
-<div class="description usertext">
-    <p>WebSocket錯誤事件</p>
-</div>
 
 
 
 
 
 
-
-
-
-    <h5>Example</h5>
+    <h5 class="h5-examples">Example</h5>
     
     <pre class="prettyprint"><code>wo.on('error', function(err) {    ...})</code></pre>
 
 
 
 
-    <h5>Parameters:</h5>
+    <h5 class="h5-parameters">Parameters:</h5>
     
 
 <table class="params">
@@ -1344,6 +1344,7 @@
             
                 
 <span class="param-type">*</span>
+
 
 
             
@@ -1383,7 +1384,7 @@
 
     
 
-    <h4 class="name" id=".onOpen"><span class="type-signature">(static) </span>onOpen<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".onOpen"><span class="type-signature type-signature-static">(static) </span>onOpen<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
@@ -1391,6 +1392,10 @@
 
 
 <dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>WebSocket監聽開啟事件</p></li></ul></dd>
+    
 
     
     <dt class="tag-source">Source:</dt>
@@ -1434,19 +1439,13 @@
 
 
 
-<div class="description usertext">
-    <p>WebSocket監聽開啟事件</p>
-</div>
 
 
 
 
 
 
-
-
-
-    <h5>Example</h5>
+    <h5 class="h5-examples">Example</h5>
     
     <pre class="prettyprint"><code>wo.on('open', function() {    ...})</code></pre>
 
@@ -1475,7 +1474,7 @@
 
     
 
-    <h4 class="name" id=".onOpenOnce"><span class="type-signature">(static) </span>onOpenOnce<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".onOpenOnce"><span class="type-signature type-signature-static">(static) </span>onOpenOnce<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
@@ -1483,6 +1482,10 @@
 
 
 <dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>WebSocket監聽第一次開啟事件</p></li></ul></dd>
+    
 
     
     <dt class="tag-source">Source:</dt>
@@ -1526,19 +1529,13 @@
 
 
 
-<div class="description usertext">
-    <p>WebSocket監聽第一次開啟事件</p>
-</div>
 
 
 
 
 
 
-
-
-
-    <h5>Example</h5>
+    <h5 class="h5-examples">Example</h5>
     
     <pre class="prettyprint"><code>wo.on('openOnce', function() {    ...})</code></pre>
 
@@ -1567,7 +1564,7 @@
 
     
 
-    <h4 class="name" id=".onReconn"><span class="type-signature">(static) </span>onReconn<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".onReconn"><span class="type-signature type-signature-static">(static) </span>onReconn<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
@@ -1575,6 +1572,10 @@
 
 
 <dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>WebSocket監聽重連事件</p></li></ul></dd>
+    
 
     
     <dt class="tag-source">Source:</dt>
@@ -1618,19 +1619,13 @@
 
 
 
-<div class="description usertext">
-    <p>WebSocket監聽重連事件</p>
-</div>
 
 
 
 
 
 
-
-
-
-    <h5>Example</h5>
+    <h5 class="h5-examples">Example</h5>
     
     <pre class="prettyprint"><code>wo.on('reconn', function() {    ...})</code></pre>
 
@@ -1674,7 +1669,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a> on Thu Jan 19 2023 15:54:57 GMT+0800 (台北標準時間) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Fri Mar 31 2023 15:15:01 GMT+0800 (台北標準時間) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

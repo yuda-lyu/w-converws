@@ -1,15 +1,15 @@
 {
   "name": "w-converws",
-  "version": "1.0.31",
+  "version": "1.0.32",
   "main": "dist/w-converws-server.umd.js",
   "dependencies": {
     "lodash": "^4.17.21",
-    "w-websocket-client": "^1.0.25",
-    "ws": "^8.12.0",
-    "wsemi": "^1.6.87"
+    "w-websocket-client": "^1.0.27",
+    "ws": "^8.13.0",
+    "wsemi": "^1.7.2"
   },
   "devDependencies": {
-    "w-package-tools": "^1.0.66"
+    "w-package-tools": "^1.0.69"
   },
   "scripts": {
     "test": "mocha --parallel --timeout 60000 --experimental-modules --es-module-specifier-resolution=node",
