@@ -1,5 +1,5 @@
 import WebSocket, { WebSocketServer } from 'ws'
-import get from 'lodash/get'
+import get from 'lodash-es/get'
 // import genPm from 'wsemi/src/genPm.mjs'
 // import urlParse from 'wsemi/src/urlParse.mjs'
 import evem from 'wsemi/src/evem.mjs'
