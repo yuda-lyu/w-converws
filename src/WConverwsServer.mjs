@@ -1,5 +1,5 @@
 import WebSocket, { WebSocketServer } from 'ws'
-import get from 'lodash-es/get'
+import get from 'lodash-es/get.js'
 // import genPm from 'wsemi/src/genPm.mjs'
 // import urlParse from 'wsemi/src/urlParse.mjs'
 import evem from 'wsemi/src/evem.mjs'
@@ -121,7 +121,7 @@ function WConverwsServer(opt = {}) {
         wss = new WebSocketServer(serverSettings)
     }
     catch (err) {
-        error({ msg: 'can not create websocket', err: err })
+        error({ msg: 'can not create websocket', err })
     }
 
 
@@ -208,7 +208,7 @@ function WConverwsServer(opt = {}) {
 
                 //sendSplitData
                 sendSplitData(wsc, opt.strSplitLength, data, cbProgress, function (err) {
-                    error({ msg: 'can not send message', err: err })
+                    error({ msg: 'can not send message', err })
                 })
 
             }
@@ -286,7 +286,7 @@ function WConverwsServer(opt = {}) {
             //msg
             let msg = {
                 _mode: 'broadcast',
-                data: data,
+                data,
             }
 
             //sendData

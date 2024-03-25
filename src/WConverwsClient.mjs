@@ -1,5 +1,5 @@
 import WSC from 'w-websocket-client/src/WWebsocketClient.mjs'
-import get from 'lodash-es/get'
+import get from 'lodash-es/get.js'
 import genPm from 'wsemi/src/genPm.mjs'
 import genID from 'wsemi/src/genID.mjs'
 import Evem from 'wsemi/src/evem.mjs'
@@ -128,7 +128,7 @@ function WConverwsClient(opt) {
             wsc = new WSC(optt)
         }
         catch (err) {
-            eeEmit('error', { msg: 'can not create websocket', err: err })
+            eeEmit('error', { msg: 'can not create websocket', err })
             reconn()
             return
         }
@@ -203,7 +203,7 @@ function WConverwsClient(opt) {
          */
         function onError() {} onError()
         function error(err) {
-            eeEmit('error', { msg: 'websocket error', err: err })
+            eeEmit('error', { msg: 'websocket error', err })
             wsc.close()
         }
 
@@ -269,7 +269,7 @@ function WConverwsClient(opt) {
 
                 //sendSplitData
                 sendSplitData(wsc, opt.strSplitLength, data, cbProgress, function (err) {
-                    eeEmit('error', { msg: 'can not send message', err: err })
+                    eeEmit('error', { msg: 'can not send message', err })
                 })
 
             }
@@ -284,9 +284,9 @@ function WConverwsClient(opt) {
             //msg
             let msg = {
                 _mode: 'execute',
-                _id: _id,
-                func: func,
-                input: input,
+                _id,
+                func,
+                input,
             }
 
             //sendData
@@ -311,7 +311,7 @@ function WConverwsClient(opt) {
             //msg
             let msg = {
                 _mode: 'broadcast',
-                data: data,
+                data,
             }
 
             //sendData
@@ -325,7 +325,7 @@ function WConverwsClient(opt) {
             //msg
             let msg = {
                 _mode: 'deliver',
-                data: data,
+                data,
             }
 
             //sendData
