@@ -4,7 +4,6 @@ An operator for websocket in nodejs and browser.
 ![language](https://img.shields.io/badge/language-JavaScript-orange.svg) 
 [![npm version](http://img.shields.io/npm/v/w-converws.svg?style=flat)](https://npmjs.org/package/w-converws) 
 [![license](https://img.shields.io/npm/l/w-converws.svg?style=flat)](https://npmjs.org/package/w-converws) 
-[![gzip file size](http://img.badgesize.io/yuda-lyu/w-converws/master/dist/w-converws-server.umd.js.svg?compression=gzip)](https://github.com/yuda-lyu/w-converws)
 [![npm download](https://img.shields.io/npm/dt/w-converws.svg)](https://npmjs.org/package/w-converws) 
 [![npm download](https://img.shields.io/npm/dm/w-converws.svg)](https://npmjs.org/package/w-converws) 
 [![jsdelivr download](https://img.shields.io/jsdelivr/npm/hm/w-converws.svg)](https://www.jsdelivr.com/package/npm/w-converws)
@@ -18,14 +17,12 @@ To view documentation or get support, visit [docs](https://yuda-lyu.github.io/w-
 * `w-converws-client`: for nodejs and browser client
 
 ## Installation
+
 ### Using npm(ES6 module):
-> **Note:** `w-converws-server` is mainly dependent on `ws`.
-
-> **Note:** `w-converws-client` is mainly dependent on `w-websocket-client`.
-
 ```alias
 npm i w-converws
 ```
+
 #### Example for w-converws-server:
 > **Link:** [[dev source code](https://github.com/yuda-lyu/w-converws/blob/master/srv.mjs)]
 ```alias
@@ -87,6 +84,7 @@ wo.on('deliver', function(data) {
 // Server[port:8080]: broadcast client web: broadcast: hi
 // Server[port:8080]: deliver client web: deliver: hi
 ```
+
 #### Example for w-converws-client:
 > **Link:** [[dev source code](https://github.com/yuda-lyu/w-converws/blob/master/scla.mjs)]
 ```alias
@@ -151,12 +149,12 @@ wo.on('broadcast', function(data) {
 ```
 
 ### In a browser(UMD module):
-> **Note:** `w-converws-client` does't depend on any package.
 
-[Necessary] Add script for w-converws-client.
+Add script for w-converws-client.
 ```alias
 <script src="https://cdn.jsdelivr.net/npm/w-converws@1.0.34/dist/w-converws-client.umd.js"></script>
 ```
+
 #### Example for w-converws-client:
 > **Link:** [[dev source code](https://github.com/yuda-lyu/w-converws/blob/master/web.html)]
 ```alias

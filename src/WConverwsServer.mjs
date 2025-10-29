@@ -83,7 +83,7 @@ function WConverwsServer(opt = {}) {
 
 
     //eeEmit
-    function eeEmit(name, ...args) {
+    let eeEmit = (name, ...args) => {
         setTimeout(() => {
             ee.emit(name, ...args)
         }, 1)
