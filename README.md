@@ -152,7 +152,7 @@ wo.on('broadcast', function(data) {
 
 Add script for w-converws-client.
 ```alias
-<script src="https://cdn.jsdelivr.net/npm/w-converws@1.0.59/dist/w-converws-client.umd.js"></script>
+<script src="https://yuda-lyu.github.io/w-converws/dist/w-converws-client.umd.js"></script>
 ```
 
 #### Example for w-converws-client:
