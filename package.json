@@ -1,11 +1,11 @@
 {
   "name": "w-converws",
-  "version": "1.0.90",
+  "version": "1.0.91",
   "main": "dist/w-converws-server.umd.js",
   "dependencies": {
-    "w-websocket-client": "^1.0.86",
+    "w-websocket-client": "^1.0.87",
     "ws": "^8.23.0",
-    "wsemi": "^1.9.78"
+    "wsemi": "^1.9.79"
   },
   "devDependencies": {
     "w-package-tools": "^1.1.31"
